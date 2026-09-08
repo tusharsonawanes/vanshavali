@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vanshavali — Our People. Our Story.</title>
+<style>
+  :root, [data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#08090b;
+    --surface-0:#0c0e11;
+    --surface-1:#111418;
+    --surface-2:#161a20;
+    --surface-3:#1c2128;
+    --border:#23282f;
+    --border-soft:#1a1e24;
+    --text:#e9edf2;
+    --text-dim:#9aa4b1;
+    --text-faint:#69727e;
+    --accent:#3b82f6;
+    --accent-hover:#4d8ef7;
+    --accent-text:#a9c9ff;
+    --on-accent:#ffffff;
+    --accent-soft:rgba(59,130,246,.16);
+    --accent-line:rgba(59,130,246,.55);
+    --rose:#b06b7d;
+    --danger:#e2707f;
+    /* chrome */
+    --header-a:#0e1114;
+    --header-b:#0a0c0f;
+    --mark-a:#243447;
+    --mark-b:#12161b;
+    --logo-stroke:#7fb0ff;
+    --canvas-a:#0e1319;
+    --canvas-b:#08090b;
+    --glass:rgba(17,20,24,.86);
+    --scrim:rgba(4,5,7,.62);
+    --dither-opacity:.05;
+    --dither-blend:overlay;
+    /* person cards */
+    --node-m:#141920;
+    --node-f:#1e1519;
+    --node-stroke:#262c34;
+    --node-stroke-hover:#39414c;
+    --node-ini:#c8d2de;
+    --node-sub:#8d97a4;
+    --avatar-m:#20293a;
+    --avatar-f:#33222a;
+    --avatar-stroke:#333b45;
+    --ini-muted:#8f9bab;
+    --deceased-dot:#6b7480;
+    /* relationship-line palette — Apple system colors (dark-mode values) so
+       each connection type reads as a distinct, deliberate hue rather than
+       one flat grey line for everything. */
+    --line-parent:#0a84ff;         /* systemBlue   — biological parent → child */
+    --line-parent-adopted:#bf5af2; /* systemPurple — adopted parent → child */
+    --line-spouse:#ff375f;         /* systemPink   — married */
+    --line-spouse-divorced:#8e8e93;/* systemGray   — divorced */
+    --line-sibling:#64d2ff;        /* systemTeal   — siblings (full) */
+    --line-sibling-half:#5e8fa8;   /* dimmed teal  — half-siblings */
+    --zone-unmapped:#5a5f6a;
+    --zone-fill:rgba(255,255,255,.015);
+    --del-border:#6d2534;
+    --del-bg:#2a1219;
+    --del-bg-hover:#3b1723;
+    --del-text:#ff6b81;
+    --drop-bg:rgba(59,130,246,.07);
+    --drop-text:#cfe0ff;
+    --shadow-1:0 1px 2px rgba(0,0,0,.4);
+    --shadow-2:0 8px 24px -8px rgba(0,0,0,.65);
+    --shadow-3:0 24px 60px -20px rgba(0,0,0,.8);
+    --dur:.28s;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --radius:14px;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,system-ui,sans-serif;
+  }
+
+  /* ---------- light appearance ---------- */
+  [data-theme="light"]{
+    color-scheme:light;
+    --bg:#f5f5f7;
+    --surface-0:#ffffff;
+    --surface-1:#ffffff;
+    --surface-2:#f2f2f5;
+    --surface-3:#e7e8ec;
+    --border:#d9dade;
+    --border-soft:#e6e7ea;
+    --text:#1c1d21;
+    --text-dim:#5f6570;
+    --text-faint:#8a8f99;
+    --accent:#0060df;
+    --accent-hover:#0a6ff0;
+    --accent-text:#0a4fa8;
+    --on-accent:#ffffff;
+    --accent-soft:rgba(0,96,223,.10);
+    --accent-line:rgba(0,96,223,.45);
+    --rose:#9c5265;
+    --danger:#c8384c;
+    --header-a:#ffffff;
+    --header-b:#f4f4f6;
+    --mark-a:#dde6f4;
+    --mark-b:#f6f8fb;
+    --logo-stroke:#2f6fd0;
+    --canvas-a:#ffffff;
+    --canvas-b:#eceef2;
+    --glass:rgba(255,255,255,.86);
+    --scrim:rgba(28,30,36,.28);
+    --dither-opacity:0;
+    --dither-blend:normal;
+    --node-m:#ffffff;
+    --node-f:#fffafb;
+    --node-stroke:#d5d7dd;
+    --node-stroke-hover:#a9adb8;
+    --node-ini:#4b5260;
+    --node-sub:#787f8b;
+    --avatar-m:#e3ebf7;
+    --avatar-f:#f8e6ec;
+    --avatar-stroke:#dadde4;
+    --ini-muted:#7c828d;
+    --deceased-dot:#a3a8b2;
+    --line-parent:#0071e3;
+    --line-parent-adopted:#8944ab;
+    --line-spouse:#d4285a;
+    --line-spouse-divorced:#8e8e93;
+    --line-sibling:#0a91b8;
+    --line-sibling-half:#6d9aab;
+    --zone-unmapped:#a4a9b3;
+    --zone-fill:rgba(20,24,32,.02);
+    --del-border:#f0c2c9;
+    --del-bg:#fdeef0;
+    --del-bg-hover:#f9dde1;
+    --del-text:#c8384c;
+    --drop-bg:rgba(0,96,223,.06);
+    --drop-text:#0a4fa8;
+    --shadow-1:0 1px 2px rgba(20,24,32,.08);
+    --shadow-2:0 8px 24px -8px rgba(20,24,32,.18);
+    --shadow-3:0 24px 60px -20px rgba(20,24,32,.28);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;margin:0;}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--font);
+    font-size:14px;-webkit-font-smoothing:antialiased;overflow:hidden;
+  }
+  button{font-family:inherit;color:inherit;}
+  :focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent);border-radius:8px;}
+  input:focus-visible,textarea:focus-visible,select:focus-visible{box-shadow:none;}
+  .app{display:flex;flex-direction:column;height:100%;}
+
+  /* ---------- header ---------- */
+  header{
+    height:64px;flex:0 0 64px;display:flex;align-items:center;gap:16px;
+    padding:0 16px;border-bottom:1px solid var(--border-soft);
+    background:linear-gradient(180deg,var(--header-a),var(--header-b));position:relative;z-index:40;
+  }
+  .brand{display:flex;align-items:center;gap:11px;min-width:236px;}
+  .brand .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+    background:radial-gradient(120% 120% at 30% 10%,var(--mark-a),var(--mark-b));border:1px solid var(--border);}
+  .brand h1{font-size:15px;letter-spacing:.16em;margin:0;font-weight:600;}
+  .brand p{margin:1px 0 0;font-size:10.5px;color:var(--text-faint);letter-spacing:.04em;}
+  .spacer{flex:1;}
+  .search-wrap{position:relative;width:min(420px,34vw);}
+  .search-wrap input[type=text]{
+    width:100%;height:38px;border-radius:11px;border:1px solid var(--border);
+    background:var(--surface-1);color:var(--text);padding:0 12px 0 36px;font-size:13px;
+    transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease);
+  }
+  .search-wrap input[type=text]::placeholder{color:var(--text-faint);}
+  .search-wrap input[type=text]:focus{border-color:var(--accent);background:var(--surface-2);box-shadow:none;outline:none;}
+  .search-wrap svg.si{position:absolute;left:11px;top:11px;color:var(--text-faint);pointer-events:none;}
+  .results{
+    position:absolute;top:46px;left:0;right:0;background:var(--surface-2);
+    border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-3);
+    padding:6px;max-height:340px;overflow:auto;display:none;
+  }
+  .results.show{display:block;}
+  .res-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;
+    padding:8px;border-radius:10px;cursor:pointer;text-align:left;}
+  .res-item:hover,.res-item.active{background:var(--surface-3);}
+  .res-item .nm{font-size:13px;}
+  .res-item .dt{font-size:11px;color:var(--text-faint);}
+  .res-empty{padding:14px;font-size:12.5px;color:var(--text-faint);text-align:center;}
+
+  .btn{
+    height:38px;border-radius:11px;border:1px solid var(--border);background:var(--surface-1);
+    padding:0 14px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px;
+    cursor:pointer;transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),transform .12s var(--ease);
+  }
+  .btn:hover{background:var(--surface-3);}
+  .btn:active{transform:scale(.975);}
+  .btn.primary{background:var(--accent);border-color:transparent;color:var(--on-accent);font-weight:560;}
+  .btn.primary:hover{background:var(--accent-hover);}
+  .btn.ghost{background:transparent;border-color:transparent;color:var(--text-dim);}
+  .btn.ghost:hover{background:var(--surface-2);color:var(--text);}
+  #themeBtn{width:38px;padding:0;justify-content:center;color:var(--text-dim);}
+  #themeBtn:hover{color:var(--text);}
+  [data-theme="dark"] #themeBtn .ic-moon,
+  [data-theme="light"] #themeBtn .ic-sun{display:none;}
+
+  .btn.sm{height:32px;padding:0 11px;font-size:12.5px;border-radius:9px;}
+  .btn.danger{color:var(--danger);}
+
+  .menu{
+    position:absolute;top:56px;right:16px;width:266px;background:var(--surface-2);
+    border:1px solid var(--border);border-radius:15px;box-shadow:var(--shadow-3);padding:6px;
+    opacity:0;transform:translateY(-6px) scale(.985);pointer-events:none;
+    transition:opacity .18s var(--ease),transform .18s var(--ease);z-index:60;
+  }
+  .menu.show{opacity:1;transform:none;pointer-events:auto;}
+  .menu button{display:flex;gap:12px;align-items:flex-start;width:100%;background:none;border:0;
+    padding:10px;border-radius:11px;cursor:pointer;text-align:left;}
+  .menu button:hover{background:var(--surface-3);}
+  .menu button > span{display:flex;flex-direction:column;min-width:0;}
+  .menu .t{font-size:13px;line-height:1.25;}
+  .menu .s{display:block;font-size:11px;color:var(--text-faint);margin-top:3px;line-height:1.3;}
+
+  .menu svg{margin-top:2px;color:var(--text-dim);flex:0 0 auto;}
+
+  /* ---------- body ---------- */
+  .main{flex:1;display:flex;min-height:0;position:relative;}
+  .canvas-wrap{flex:1;position:relative;overflow:hidden;background:
+    radial-gradient(90% 70% at 50% 0%,var(--canvas-a) 0%,var(--canvas-b) 62%);}
+  #svg{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none;}
+  #svg.dragging{cursor:grabbing;}
+
+  .toolbar{
+    position:absolute;left:20px;bottom:20px;display:flex;gap:10px;align-items:center;
+  }
+  .pill{display:flex;align-items:center;gap:2px;background:var(--glass);backdrop-filter:blur(14px);
+    border:1px solid var(--border);border-radius:12px;padding:4px;box-shadow:var(--shadow-2);}
+  .pill button{width:32px;height:32px;border:0;background:none;border-radius:9px;cursor:pointer;
+    display:grid;place-items:center;color:var(--text-dim);}
+  .pill button:hover{background:var(--surface-3);color:var(--text);}
+  .pill .z{min-width:56px;text-align:center;font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--text);}
+  .tool-btn{height:40px;border-radius:12px;border:1px solid var(--border);background:var(--glass);
+    backdrop-filter:blur(14px);padding:0 14px;font-size:12.5px;display:inline-flex;align-items:center;gap:8px;
+    cursor:pointer;box-shadow:var(--shadow-2);transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease);}
+  .tool-btn:hover{background:var(--surface-3);}
+  .tool-btn.on{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-text);}
+
+  /* ---------- inspector ---------- */
+  .inspector{
+    width:372px;flex:0 0 372px;border-left:1px solid var(--border-soft);background:var(--surface-0);
+    display:flex;flex-direction:column;overflow:hidden;
+    margin-right:-372px;opacity:0;transition:margin-right .34s var(--ease),opacity .26s var(--ease);
+  }
+  .inspector.open{margin-right:0;opacity:1;}
+  .insp-scroll{overflow:auto;padding:20px 22px 40px;}
+  .insp-top{display:flex;justify-content:flex-end;padding:12px 12px 0;}
+  .icon-btn{width:30px;height:30px;border-radius:9px;border:0;background:none;color:var(--text-faint);
+    cursor:pointer;display:grid;place-items:center;}
+  .icon-btn:hover{background:var(--surface-2);color:var(--text);}
+  .insp-photo{width:132px;height:158px;border-radius:16px;object-fit:cover;border:1px solid var(--border);
+    background:var(--surface-2);display:block;}
+  .insp-name{font-size:22px;font-weight:600;letter-spacing:-.01em;margin:16px 0 2px;}
+  .insp-dates{font-size:13px;color:var(--text-dim);}
+  .insp-headrow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;}
+  .tabs{display:flex;gap:4px;background:var(--surface-1);border:1px solid var(--border-soft);
+    border-radius:11px;padding:4px;margin:20px 0 18px;}
+  .tabs button{flex:1;height:30px;border:0;background:none;border-radius:8px;font-size:12.5px;
+    color:var(--text-dim);cursor:pointer;transition:background var(--dur) var(--ease),color var(--dur) var(--ease);}
+  .tabs button.on{background:var(--surface-3);color:var(--text);}
+  .field{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border-soft);}
+  .field:last-child{border-bottom:0;}
+  .field svg{color:var(--text-faint);margin-top:2px;flex:0 0 auto;}
+  .field .k{font-size:11px;color:var(--text-faint);}
+  .field .v{font-size:13.5px;margin-top:2px;white-space:pre-wrap;}
+  .sec-title{font-size:12px;color:var(--text-faint);letter-spacing:.06em;text-transform:uppercase;margin:22px 0 8px;}
+  .rel-row{display:flex;align-items:center;gap:11px;width:100%;background:none;border:0;padding:9px 8px;
+    border-radius:11px;cursor:pointer;text-align:left;transition:background var(--dur) var(--ease);}
+  .rel-row:hover{background:var(--surface-2);}
+  .rel-row .k{font-size:11px;color:var(--text-faint);}
+  .rel-row .v{font-size:13.5px;margin-top:1px;}
+  .rel-row .chev{margin-left:auto;color:var(--text-faint);}
+  .rel-row-wrap{display:flex;align-items:center;gap:4px;}
+  .rel-row-wrap .rel-row{flex:1;min-width:0;}
+  .rel-row-wrap select{width:auto;padding:5px 8px;font-size:11px;flex:0 0 auto;}
+  .rel-row-wrap .icon-btn{flex:0 0 auto;color:var(--text-faint);}
+  .rel-row-wrap .icon-btn:hover{color:var(--danger);background:var(--surface-2);}
+  .media-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+  .media-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:11px;border:1px solid var(--border);}
+  .media-add{aspect-ratio:1;border-radius:11px;border:1px dashed var(--border);background:var(--surface-1);
+    display:grid;place-items:center;color:var(--text-faint);font-size:10.5px;cursor:pointer;gap:2px;}
+  .media-add:hover{border-color:var(--accent-line);color:var(--text-dim);}
+  .avatar{border-radius:50%;object-fit:cover;background:var(--surface-3);flex:0 0 auto;}
+
+  /* ---------- empty ---------- */
+  .empty{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+  .empty.show{display:flex;}
+  .empty h2{font-size:20px;font-weight:600;margin:0;}
+  .empty p{color:var(--text-dim);font-size:13.5px;margin:0 0 14px;}
+
+  /* ---------- modal ---------- */
+  .scrim{position:fixed;inset:0;background:var(--scrim);backdrop-filter:blur(3px);z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .2s var(--ease);display:grid;place-items:center;padding:28px;}
+  .scrim.show{opacity:1;pointer-events:auto;}
+  .modal{width:min(720px,100%);max-height:88vh;overflow:auto;background:var(--surface-1);
+    border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-3);
+    transform:translateY(8px) scale(.99);transition:transform .22s var(--ease);}
+  .scrim.show .modal{transform:none;}
+  .modal header{height:auto;padding:20px 24px 16px;border-bottom:1px solid var(--border-soft);background:none;}
+  .modal h3{margin:0;font-size:17px;font-weight:600;}
+  .modal .sub{font-size:12.5px;color:var(--text-faint);margin-top:3px;}
+  .modal .body{padding:20px 24px;}
+  .modal .foot{padding:16px 24px;border-top:1px solid var(--border-soft);display:flex;justify-content:flex-end;gap:10px;
+    position:sticky;bottom:0;background:var(--surface-1);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  label.f{display:block;}
+  label.f span{display:block;font-size:11px;color:var(--text-faint);margin-bottom:6px;letter-spacing:.03em;}
+  input[type=text],input[type=date],input[type=tel],input[type=email],input[type=number],textarea,select{
+    width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;
+    color:var(--text);font-family:inherit;font-size:13px;padding:9px 11px;
+    transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease);
+    -webkit-appearance:none;appearance:none;}
+  select{background-image:linear-gradient(45deg,transparent 50%,var(--text-faint) 50%),linear-gradient(135deg,var(--text-faint) 50%,transparent 50%);
+    background-position:calc(100% - 17px) 50%,calc(100% - 12px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:30px;}
+  input::placeholder,textarea::placeholder{color:var(--text-faint);}
+  input:focus,textarea:focus,select:focus{border-color:var(--accent);outline:none;}
+  .phone-row{display:flex;gap:8px;}
+  .phone-row select{flex:0 0 118px;}
+  textarea{resize:vertical;min-height:70px;}
+  .check{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-dim);cursor:pointer;}
+  .check input{width:16px;height:16px;accent-color:var(--accent);}
+  .photo-pick{display:flex;gap:14px;align-items:center;}
+  .photo-pick img{width:72px;height:72px;border-radius:14px;object-fit:cover;border:1px solid var(--border);}
+  .rel-add{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{height:30px;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);
+    padding:0 11px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+  .chip:hover{border-color:var(--accent-line);color:var(--accent-text);}
+  .rel-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+  .rel-pill{display:flex;align-items:center;gap:10px;background:var(--surface-2);border:1px solid var(--border);
+    border-radius:11px;padding:8px 10px;font-size:13px;}
+  .rel-pill .role{font-size:11px;color:var(--text-faint);width:66px;flex:0 0 auto;}
+  .rel-pill select{width:auto;padding:5px 8px;font-size:11.5px;margin-left:auto;}
+  .divider{height:1px;background:var(--border-soft);margin:20px 0;}
+  .picker-list{max-height:300px;overflow:auto;display:flex;flex-direction:column;gap:2px;margin-top:12px;}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,14px);background:var(--surface-3);
+    border:1px solid var(--border);border-radius:12px;padding:11px 16px;font-size:13px;box-shadow:var(--shadow-3);
+    opacity:0;pointer-events:none;transition:opacity .22s var(--ease),transform .22s var(--ease);z-index:120;}
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+
+  /* ---------- svg tree ---------- */
+  .node{cursor:pointer;transition:transform .42s var(--ease),opacity var(--dur) var(--ease);}
+  .node .card{transition:fill var(--dur) var(--ease),stroke var(--dur) var(--ease);}
+  .node:hover .card{stroke:var(--node-stroke-hover);}
+  .node .nm{font-size:13.5px;font-weight:560;fill:var(--text);}
+  .node .dt{font-size:11.5px;fill:var(--text-faint);}
+  .node .ini{font-size:14px;font-weight:600;fill:var(--node-ini);text-anchor:middle;}
+  .edge{fill:none;stroke:var(--line-parent);stroke-width:1.6;transition:opacity var(--dur) var(--ease),stroke var(--dur) var(--ease);}
+  .edge.spouse{stroke:var(--line-spouse);}
+  .edge.sibling{stroke:var(--line-sibling);stroke-width:1.4;stroke-dasharray:4 4;stroke-linecap:round;}
+  .edge.sibling.half{stroke:var(--line-sibling-half);stroke-dasharray:1.5 5;}
+  .edge.adopted{stroke:var(--line-parent-adopted);stroke-dasharray:1 5;stroke-linecap:round;}
+  .edge.divorced{stroke-dasharray:5 4;stroke:var(--line-spouse-divorced);}
+  .dim{opacity:.14;}
+  [data-theme="light"] .dim{opacity:.26;}
+  .edge.hot{stroke:var(--accent);opacity:1;stroke-width:2.2;}
+  .edge-hit{fill:none;stroke:transparent;stroke-width:18;cursor:pointer;}
+  .edge.hovered{stroke:var(--accent);opacity:1;stroke-width:2.8;}
+  .edge-del{position:absolute;z-index:25;transform:translate(-50%,-50%);width:28px;height:28px;padding:0;
+    border-radius:50%;border:1px solid var(--del-border);background:var(--del-bg);color:var(--del-text);display:grid;place-items:center;
+    cursor:pointer;box-shadow:var(--shadow-2);transition:background var(--dur) var(--ease);}
+  .edge-del:hover{background:var(--del-bg-hover);}
+  .edge-del[hidden]{display:none;}
+  .insp-headrow .head-actions{display:flex;gap:8px;align-items:center;}
+
+  /* ---------- unmapped zone ---------- */
+  .zone-unmapped-rect{fill:var(--zone-fill);stroke:var(--zone-unmapped);stroke-width:1.4;stroke-dasharray:6 6;rx:18;}
+  .zone-unmapped-label{fill:var(--text-faint);font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+
+  /* ---------- legend ---------- */
+  .legend{position:absolute;top:16px;right:16px;background:var(--glass);backdrop-filter:blur(14px);
+    border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow-2);padding:10px 12px;
+    font-size:12px;color:var(--text-dim);z-index:10;transition:opacity .2s var(--ease);}
+  .legend.hide{display:none;}
+  .legend .lg-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:6px;}
+  .legend .lg-title{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);font-weight:600;}
+  .legend button{background:none;border:0;color:var(--text-faint);cursor:pointer;padding:2px;display:grid;place-items:center;}
+  .legend button:hover{color:var(--text);}
+  .legend .lg-row{display:flex;align-items:center;gap:8px;padding:3px 0;white-space:nowrap;}
+  .legend .lg-swatch{width:18px;height:0;border-top:2.4px solid;flex:0 0 auto;}
+  .legend .lg-swatch.dash{border-top-style:dashed;}
+  .legend .lg-swatch.dot{border-top-style:dotted;border-top-width:3px;}
+  body.dropping::after{content:"Drop a Vanshavali file to import";position:fixed;inset:12px;z-index:200;
+    border:2px dashed var(--accent-line);border-radius:20px;background:var(--drop-bg);
+    display:grid;place-items:center;font-size:14px;font-weight:600;color:var(--drop-text);pointer-events:none;}
+  @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;}}
+
+  /* ---------- anti-banding dither ----------
+     The near-black gradients above (header, canvas background) sit only a
+     few RGB values apart. Displays that don't dither 8-bit gradients well
+     (common on non-Mac monitors, e.g. BenQ) render that as visible stepped
+     bands / a "torn" look. A faint noise overlay breaks the banding up on
+     every display without changing how the gradients look. */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:200;
+    opacity:var(--dither-opacity);mix-blend-mode:var(--dither-blend);
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+</style>
+<script>
+  /* Set the appearance before first paint: saved choice if there is one,
+     otherwise follow the device. */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("vanshavali.theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") {
+      t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" style="stroke:var(--logo-stroke)" stroke-width="1.6" stroke-linecap="round"><path d="M12 21v-7"></path><path d="M12 14c-3.6 0-6-2.2-6-5.2S8.4 3 12 3s6 2.8 6 5.8-2.4 5.2-6 5.2Z"></path><path d="M9 17.5h6"></path></svg>
+      </div>
+      <div>
+        <h1>VANSHAVALI</h1>
+        <p>Our People. Our Story.</p>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="search-wrap">
+      <svg class="si" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.2-3.2"></path></svg>
+      <input id="search" type="text" placeholder="Search people…" autocomplete="off" aria-label="Search people">
+      <div class="results" id="results" role="listbox"></div>
+    </div>
+
+    <button class="btn ghost" id="themeBtn" aria-pressed="false" aria-label="Switch appearance" title="Switch appearance">
+      <svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.6v2.2M12 19.2v2.2M4.4 12H2.2M21.8 12h-2.2M6.3 6.3 4.8 4.8M19.2 19.2l-1.5-1.5M17.7 6.3l1.5-1.5M4.8 19.2l1.5-1.5"></path></svg>
+      <svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20 14.4A8.4 8.4 0 0 1 9.6 4a8.4 8.4 0 1 0 10.4 10.4Z"></path></svg>
+    </button>
+    <button class="btn" id="importBtn">
+
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 4v12"></path><path d="m7.5 11.5 4.5 4.5 4.5-4.5"></path><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg>
+      Import
+    </button>
+    <input type="file" id="importFile" accept=".vansh,.json,.html,application/json,text/html" hidden>
+    <button class="btn" id="exportBtn" aria-haspopup="menu">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 16V4"></path><path d="m7.5 8.5 4.5-4.5 4.5 4.5"></path><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg>
+      Export
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+    </button>
+    <button class="btn primary" id="addBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+      Add Person
+    </button>
+
+    <div class="menu" id="exportMenu" role="menu">
+      <button id="saveData" role="menuitem">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h11l3 3v13H5z"></path><path d="M8 4v5h7M8 14h8"></path></svg>
+        <span><span class="t">Save Data File (.vansh)</span><span class="s">Complete lineage · re-importable</span></span>
+      </button>
+      <button id="saveImg" role="menuitem">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="3"></rect><circle cx="8.5" cy="9.5" r="1.6"></circle><path d="m4 17 5-4.5 4 3.2 3-2.4 4 3.7"></path></svg>
+        <span><span class="t">Save Image (PNG)</span><span class="s">Entire tree, high resolution</span></span>
+      </button>
+      <button id="saveHtml" role="menuitem">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path><path d="M14 3v5h5"></path></svg>
+        <span><span class="t">Save HTML</span><span class="s">Portable Vanshavali file</span></span>
+      </button>
+    </div>
+
+  </header>
+
+  <div class="main">
+    <div class="canvas-wrap" id="canvasWrap">
+      <svg id="svg" role="application" aria-label="Family tree canvas">
+        <g id="viewport">
+          <g id="zones"></g>
+          <g id="edges"></g>
+          <g id="nodes"></g>
+        </g>
+      </svg>
+
+      <div class="legend" id="legend">
+        <div class="lg-head">
+          <span class="lg-title">Lines</span>
+          <button id="legendClose" aria-label="Hide legend" title="Hide legend">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div class="lg-row"><span class="lg-swatch" style="border-color:var(--line-parent)"></span>Parent → child</div>
+        <div class="lg-row"><span class="lg-swatch dash" style="border-color:var(--line-parent-adopted)"></span>Adopted</div>
+        <div class="lg-row"><span class="lg-swatch" style="border-color:var(--line-spouse)"></span>Spouse</div>
+        <div class="lg-row"><span class="lg-swatch dash" style="border-color:var(--line-spouse-divorced)"></span>Divorced</div>
+        <div class="lg-row"><span class="lg-swatch dot" style="border-color:var(--line-sibling)"></span>Siblings</div>
+        <div class="lg-row"><span class="lg-swatch dot" style="border-color:var(--line-sibling-half)"></span>Half-siblings</div>
+      </div>
+
+      <button class="edge-del" id="edgeDel" hidden title="Remove this relationship" aria-label="Remove this relationship">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16"></path><path d="M9 7V5h6v2"></path><path d="M6 7l1 13h10l1-13"></path></svg>
+      </button>
+
+      <div class="empty" id="empty">
+        <h2>Start your Vanshavali</h2>
+        <p>Add the first person to begin building your family lineage.</p>
+        <button class="btn primary" id="emptyAdd">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          Add Person
+        </button>
+      </div>
+
+      <div class="toolbar">
+        <div class="pill">
+          <button id="zoomOut" title="Zoom out" aria-label="Zoom out"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
+          <span class="z" id="zoomVal">100%</span>
+          <button id="zoomIn" title="Zoom in" aria-label="Zoom in"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+        </div>
+        <button class="tool-btn" id="fitBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9"></path><path d="M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9"></path><path d="M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15"></path><path d="M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15"></path></svg>
+          Fit to view
+        </button>
+        <button class="tool-btn" id="focusBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"></circle><circle cx="12" cy="12" r="8"></circle></svg>
+          Zoom to lineage
+        </button>
+        <button class="tool-btn" id="legendBtn" style="display:none">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h6"></path></svg>
+          Lines
+        </button>
+      </div>
+    </div>
+
+    <aside class="inspector" id="inspector" aria-label="Person details">
+      <div class="insp-top"><button class="icon-btn" id="closeInsp" aria-label="Close details">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button></div>
+      <div class="insp-scroll" id="inspBody"></div>
+    </aside>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<script id="vanshavali-data" type="application/json">
+{
+  "people": [
+    {
+      "id": "p1",
+      "firstName": "Raghunath",
+      "lastName": "Sonawane",
+      "gender": "m",
+      "birthDate": "1928-03-14",
+      "deathDate": "2004-11-02",
+      "deceased": true,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "Farmer and village elder. Planted the mango grove behind the family house.",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p2",
+      "firstName": "Laxmibai",
+      "lastName": "Sonawane",
+      "gender": "f",
+      "birthDate": "1932-07-09",
+      "deathDate": "2010-01-21",
+      "deceased": true,
+      "birthPlace": "Sinnar, Maharashtra",
+      "notes": "Known for her handwritten recipe book, still in the family.",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p3",
+      "firstName": "Mahesh",
+      "lastName": "Sonawane",
+      "gender": "m",
+      "birthDate": "1955-02-11",
+      "deathDate": "2020-06-30",
+      "deceased": true,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "Schoolteacher for thirty-four years.",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p4",
+      "firstName": "Suresh",
+      "lastName": "Sonawane",
+      "gender": "m",
+      "birthDate": "1958-09-27",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p5",
+      "firstName": "Sunita",
+      "lastName": "Patil",
+      "gender": "f",
+      "birthDate": "1961-12-05",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "Adopted into the family in 1963.",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p6",
+      "firstName": "Shalini",
+      "lastName": "Sonawane",
+      "gender": "f",
+      "birthDate": "1957-04-18",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Pune, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p7",
+      "firstName": "Anil",
+      "lastName": "Patil",
+      "gender": "m",
+      "birthDate": "1959-08-03",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Igatpuri, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p8",
+      "firstName": "Vijay",
+      "lastName": "Sonawane",
+      "gender": "m",
+      "birthDate": "1985-01-22",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p9",
+      "firstName": "Meera",
+      "lastName": "Sonawane",
+      "gender": "f",
+      "birthDate": "1988-05-30",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Aurangabad, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p10",
+      "firstName": "Kavita",
+      "lastName": "Sonawane",
+      "gender": "f",
+      "birthDate": "1987-10-14",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p11",
+      "firstName": "Rahul",
+      "lastName": "Patil",
+      "gender": "m",
+      "birthDate": "1990-03-08",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p12",
+      "firstName": "Pooja",
+      "lastName": "Patil",
+      "gender": "f",
+      "birthDate": "1992-06-19",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Mumbai, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p13",
+      "firstName": "Tushar",
+      "lastName": "Sonawane",
+      "gender": "m",
+      "birthDate": "1995-05-14",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "Keeper of the family record.",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p14",
+      "firstName": "Riya",
+      "lastName": "Sonawane",
+      "gender": "f",
+      "birthDate": "1998-02-27",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p15",
+      "firstName": "Aarav",
+      "lastName": "Patil",
+      "gender": "m",
+      "birthDate": "2018-09-11",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Pune, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p16",
+      "firstName": "Anaya",
+      "lastName": "Patil",
+      "gender": "f",
+      "birthDate": "2021-04-02",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Pune, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p17",
+      "firstName": "Nikhil",
+      "lastName": "Sonawane",
+      "gender": "m",
+      "birthDate": "2020-11-25",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p18",
+      "firstName": "Sadashiv",
+      "lastName": "Sonawane",
+      "gender": "m",
+      "birthDate": "1899-01-01",
+      "deathDate": "1971-05-16",
+      "deceased": true,
+      "birthPlace": "Nashik, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p19",
+      "firstName": "Godavari",
+      "lastName": "Sonawane",
+      "gender": "f",
+      "birthDate": "1903-08-20",
+      "deathDate": "1979-02-09",
+      "deceased": true,
+      "birthPlace": "Trimbak, Maharashtra",
+      "notes": "",
+      "profilePhoto": null,
+      "media": []
+    },
+    {
+      "id": "p48rj5l7",
+      "media": [],
+      "firstName": "Godo",
+      "lastName": "sdf",
+      "gender": "f",
+      "birthDate": "2022-03-21",
+      "deathDate": null,
+      "deceased": false,
+      "birthPlace": "",
+      "notes": "",
+      "profilePhoto": null
+    }
+  ],
+  "relationships": [
+    {
+      "id": "r1",
+      "type": "spouse",
+      "personA": "p18",
+      "personB": "p19",
+      "status": "married"
+    },
+    {
+      "id": "r2",
+      "type": "parent-child",
+      "parentId": "p18",
+      "childId": "p1",
+      "subtype": "biological"
+    },
+    {
+      "id": "r3",
+      "type": "parent-child",
+      "parentId": "p19",
+      "childId": "p1",
+      "subtype": "biological"
+    },
+    {
+      "id": "r4",
+      "type": "spouse",
+      "personA": "p1",
+      "personB": "p2",
+      "status": "married"
+    },
+    {
+      "id": "r5",
+      "type": "parent-child",
+      "parentId": "p1",
+      "childId": "p3",
+      "subtype": "biological"
+    },
+    {
+      "id": "r6",
+      "type": "parent-child",
+      "parentId": "p2",
+      "childId": "p3",
+      "subtype": "biological"
+    },
+    {
+      "id": "r7",
+      "type": "parent-child",
+      "parentId": "p1",
+      "childId": "p4",
+      "subtype": "biological"
+    },
+    {
+      "id": "r8",
+      "type": "parent-child",
+      "parentId": "p2",
+      "childId": "p4",
+      "subtype": "biological"
+    },
+    {
+      "id": "r9",
+      "type": "parent-child",
+      "parentId": "p1",
+      "childId": "p5",
+      "subtype": "biological"
+    },
+    {
+      "id": "r10",
+      "type": "parent-child",
+      "parentId": "p2",
+      "childId": "p5",
+      "subtype": "adopted"
+    },
+    {
+      "id": "r11",
+      "type": "spouse",
+      "personA": "p3",
+      "personB": "p6",
+      "status": "married"
+    },
+    {
+      "id": "r12",
+      "type": "spouse",
+      "personA": "p5",
+      "personB": "p7",
+      "status": "divorced"
+    },
+    {
+      "id": "r13",
+      "type": "parent-child",
+      "parentId": "p3",
+      "childId": "p8",
+      "subtype": "biological"
+    },
+    {
+      "id": "r14",
+      "type": "parent-child",
+      "parentId": "p6",
+      "childId": "p8",
+      "subtype": "biological"
+    },
+    {
+      "id": "r15",
+      "type": "parent-child",
+      "parentId": "p3",
+      "childId": "p10",
+      "subtype": "biological"
+    },
+    {
+      "id": "r16",
+      "type": "parent-child",
+      "parentId": "p6",
+      "childId": "p10",
+      "subtype": "biological"
+    },
+    {
+      "id": "r17",
+      "type": "parent-child",
+      "parentId": "p5",
+      "childId": "p11",
+      "subtype": "biological"
+    },
+    {
+      "id": "r18",
+      "type": "parent-child",
+      "parentId": "p7",
+      "childId": "p11",
+      "subtype": "biological"
+    },
+    {
+      "id": "r19",
+      "type": "spouse",
+      "personA": "p8",
+      "personB": "p9",
+      "status": "married"
+    },
+    {
+      "id": "r20",
+      "type": "spouse",
+      "personA": "p11",
+      "personB": "p12",
+      "status": "married"
+    },
+    {
+      "id": "r21",
+      "type": "parent-child",
+      "parentId": "p8",
+      "childId": "p13",
+      "subtype": "biological"
+    },
+    {
+      "id": "r22",
+      "type": "parent-child",
+      "parentId": "p9",
+      "childId": "p13",
+      "subtype": "biological"
+    },
+    {
+      "id": "r23",
+      "type": "parent-child",
+      "parentId": "p8",
+      "childId": "p14",
+      "subtype": "biological"
+    },
+    {
+      "id": "r24",
+      "type": "parent-child",
+      "parentId": "p9",
+      "childId": "p14",
+      "subtype": "biological"
+    },
+    {
+      "id": "r25",
+      "type": "parent-child",
+      "parentId": "p8",
+      "childId": "p17",
+      "subtype": "adopted"
+    },
+    {
+      "id": "r26",
+      "type": "parent-child",
+      "parentId": "p9",
+      "childId": "p17",
+      "subtype": "adopted"
+    },
+    {
+      "id": "r27",
+      "type": "parent-child",
+      "parentId": "p11",
+      "childId": "p15",
+      "subtype": "biological"
+    },
+    {
+      "id": "r28",
+      "type": "parent-child",
+      "parentId": "p12",
+      "childId": "p15",
+      "subtype": "biological"
+    },
+    {
+      "id": "r29",
+      "type": "parent-child",
+      "parentId": "p11",
+      "childId": "p16",
+      "subtype": "biological"
+    },
+    {
+      "id": "r30",
+      "type": "parent-child",
+      "parentId": "p12",
+      "childId": "p16",
+      "subtype": "biological"
+    },
+    {
+      "id": "rxps03p5",
+      "type": "parent-child",
+      "parentId": "p6",
+      "childId": "p48rj5l7",
+      "subtype": "biological"
+    }
+  ],
+  "app": "vanshavali",
+  "formatVersion": 2,
+  "metadata": {
+    "title": "Sonawane Vanshavali",
+    "createdAt": "2026-01-01",
+    "version": 1,
+    "savedAt": "2026-09-07T12:57:59.116Z"
+  }
+}
+</script>
+
+<script>
+/* Captured before any DOM mutation so "Save HTML" can rebuild a pristine,
+   self-contained copy of this application with fresh data injected. */
+const PRISTINE_HTML = ("<!DOCTYPE html>\n" + document.documentElement.outerHTML)
+  /* Don't bake the current appearance into a shared file — a saved Vanshavali
+     should follow the recipient's own light/dark setting. */
+  .replace(/^(<!DOCTYPE html>\n<html\b[^>]*?)\s+data-theme="(?:light|dark)"/i, "$1");
+
+(function () {
+"use strict";
+
+/* ============================ DATA MODEL ============================
+   The Vanshavali document format. Rules that keep every saved file
+   readable forever:
+     · ids are permanent and never reused or renumbered;
+     · fields are only ever added — never renamed or removed, so a field a
+       file predates simply arrives blank;
+     · unknown keys (written by a newer version) are preserved untouched
+       and written back out on the next save, so nothing is ever lost.
+*/
+const FORMAT_VERSION = 2;
+
+/* Known person fields and their blank defaults. Add new fields here only. */
+const PERSON_DEFAULTS = {
+  firstName: "", lastName: "", gender: "m",
+  birthDate: null, deathDate: null, deceased: false,
+  birthPlace: "", notes: "",
+  telephone: "", mobCode: "+91", mobile: "", mob2Code: "+91", mobile2: "",
+  profilePhoto: null, media: []
+};
+
+function normalizePerson(p, i) {
+  const out = Object.assign({}, PERSON_DEFAULTS, p || {});
+  out.id = (p && p.id) || ("p" + (i + 1) + Math.random().toString(36).slice(2, 7));
+  out.deceased = !!out.deceased;
+  if (!Array.isArray(out.media)) out.media = [];
+  return out;
+}
+function normalizeRel(r, i) {
+  const out = Object.assign({}, r || {});
+  out.id = (r && r.id) || ("r" + (i + 1) + Math.random().toString(36).slice(2, 7));
+  if (out.type === "parent-child" && !out.subtype) out.subtype = "biological";
+  if (out.type === "spouse" && !out.status) out.status = "married";
+  return out;
+}
+/* Accepts any Vanshavali document (v1 with no formatVersion, or v2+). */
+function normalizeDoc(raw) {
+  if (!raw || typeof raw !== "object") throw new Error("Not a Vanshavali file");
+  const people = raw.people, rels = raw.relationships;
+  if (!Array.isArray(people) || !Array.isArray(rels)) throw new Error("Not a Vanshavali file");
+  const v = Number(raw.formatVersion || 1);
+  if (v > FORMAT_VERSION) throw new Error("This file was saved by a newer version of Vanshavali");
+  const doc = Object.assign({}, raw);
+  doc.formatVersion = FORMAT_VERSION;
+  doc.app = "vanshavali";
+  doc.metadata = Object.assign({ title: "Vanshavali", version: 1 }, raw.metadata || {});
+  doc.people = people.map(normalizePerson);
+  doc.relationships = rels.map(normalizeRel);
+  return doc;
+}
+/* Removes links pointing at missing people and exact duplicates. */
+function repairDoc(doc) {
+  const ids = new Set(doc.people.map((p) => p.id));
+  const seen = new Set();
+  const before = doc.relationships.length;
+  doc.relationships = doc.relationships.filter((r) => {
+    const refs = r.type === "spouse" ? [r.personA, r.personB] : [r.parentId, r.childId];
+    if (refs.some((x) => !ids.has(x))) return false;
+    const key = r.type === "spouse" ? "s:" + [r.personA, r.personB].slice().sort().join("|")
+      : "pc:" + r.parentId + "|" + r.childId;
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+  return before - doc.relationships.length;
+}
+
+const rawDoc = normalizeDoc(JSON.parse(document.getElementById("vanshavali-data").textContent));
+const state = {
+  doc: rawDoc,
+  people: rawDoc.people,
+  rels: rawDoc.relationships,
+  meta: rawDoc.metadata,
+  selected: null,
+  tab: "overview",
+  zoom: 1, tx: 0, ty: 0,
+  layout: { nodes: new Map(), edges: [], bbox: null, gens: [] }
+};
+
+
+const NODE_W = 208, NODE_H = 74, SPOUSE_GAP = 34, SIB_GAP = 40, ROW_GAP = 132;
+const ROW_H = NODE_H + ROW_GAP;
+const MIN_GAP = 30;
+
+const uid = (p) => p + Math.random().toString(36).slice(2, 9);
+const byId = (id) => state.people.find((p) => p.id === id) || null;
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+/* ====================== RELATIONSHIP ENGINE ====================== */
+const parentsOf = (id) => state.rels.filter((r) => r.type === "parent-child" && r.childId === id).map((r) => r.parentId);
+const parentRels = (id) => state.rels.filter((r) => r.type === "parent-child" && r.childId === id);
+const childrenOf = (id) => state.rels.filter((r) => r.type === "parent-child" && r.parentId === id).map((r) => r.childId);
+const spouseRels = (id) => state.rels.filter((r) => r.type === "spouse" && (r.personA === id || r.personB === id));
+const spousesOf = (id) => spouseRels(id).map((r) => (r.personA === id ? r.personB : r.personA));
+function siblingsOf(id) {
+  const ps = parentsOf(id); const out = new Set();
+  ps.forEach((p) => childrenOf(p).forEach((c) => { if (c !== id) out.add(c); }));
+  return [...out];
+}
+const fatherOf = (id) => parentsOf(id).map(byId).find((p) => p && p.gender === "m") || null;
+const motherOf = (id) => parentsOf(id).map(byId).find((p) => p && p.gender === "f") || null;
+function directCircle(id) {
+  const s = new Set([id]);
+  parentsOf(id).forEach((x) => s.add(x));
+  childrenOf(id).forEach((x) => s.add(x));
+  spousesOf(id).forEach((x) => s.add(x));
+  siblingsOf(id).forEach((x) => s.add(x));
+  return s;
+}
+/* Full upward (ancestors) + downward (descendants) blood lineage of a
+   person, plus the spouses of everyone on that line (so couples that
+   produced a highlighted descendant appear together, without pulling in
+   unrelated in-law families). Used to highlight just one person's line
+   even inside a tree of hundreds of people. */
+function ancestorsOf(id, seen) {
+  seen = seen || new Set();
+  parentsOf(id).forEach((pid) => { if (!seen.has(pid)) { seen.add(pid); ancestorsOf(pid, seen); } });
+  return seen;
+}
+function descendantsOf(id, seen) {
+  seen = seen || new Set();
+  childrenOf(id).forEach((cid) => { if (!seen.has(cid)) { seen.add(cid); descendantsOf(cid, seen); } });
+  return seen;
+}
+/* Would recording parentId as a parent of childId make someone their own
+   ancestor? That's the one input that can make a person appear to render
+   "above" their own child — everything else in the layout only ever
+   pushes descendants further down. Checked before the relationship is
+   ever written, so it's refused at the source instead of surfacing later
+   as a scrambled tree. */
+function wouldCreateCycle(parentId, childId) {
+  if (parentId === childId) return true;
+  /* Couple-aware: spouses always share a generation row, so making the
+     spouse of a descendant into an ancestor is just as impossible as making
+     the descendant themselves one (it demands a row that is both above and
+     below the same person). Walking children AND spouses catches both. */
+  const seen = new Set([childId]);
+  const stack = [childId];
+  while (stack.length) {
+    const cur = stack.pop();
+    [...childrenOf(cur), ...spousesOf(cur)].forEach((n) => {
+      if (!seen.has(n)) { seen.add(n); stack.push(n); }
+    });
+  }
+  return seen.has(parentId);
+}
+function lineageOf(id) {
+  const core = new Set([id, ...ancestorsOf(id), ...descendantsOf(id)]);
+  /* the selected person's immediate family is always part of the highlight,
+     even where it sits off their own blood line: parents, brothers and
+     sisters (full and half), and children. */
+  parentsOf(id).forEach((x) => core.add(x));
+  siblingsOf(id).forEach((x) => core.add(x));
+  childrenOf(id).forEach((x) => core.add(x));
+  /* Spouses are only pulled in when the marriage is actually part of this
+     line: the selected person's own partners, and partners who together
+     with a highlighted person produced a highlighted child. Another wife
+     who has no children on this line stays unhighlighted. */
+  const withSpouses = new Set(core);
+  core.forEach((pid) => spousesOf(pid).forEach((s) => {
+    if (pid === id || childrenOf(s).some((c) => core.has(c))) withSpouses.add(s);
+  }));
+  return withSpouses;
+}
+
+/* ========================= LAYOUT ENGINE ========================= */
+/* Data-driven: units (a person plus spouses) form a forest; each subtree is
+   packed by width so branches can never share horizontal space. A final
+   per-generation separation sweep guarantees zero overlap. */
+function computeLayout() {
+  const allPeople = state.people;
+  const nodes = new Map();
+  if (!allPeople.length) { state.layout = { nodes, edges: [], bbox: null, gens: [], unmappedZone: null }; return; }
+
+  /* Anyone with zero recorded relationships of any kind can't be placed in
+     the generational tree at all — there is nothing to anchor them to.
+     They're kept out of the gen/unit/placement math entirely and drawn
+     afterward in their own labeled zone, instead of silently defaulting to
+     generation 0 and looking like an unconnected "root" of the family. */
+  const isMapped = (id) => parentsOf(id).length || childrenOf(id).length || spousesOf(id).length;
+  const people = allPeople.filter((p) => isMapped(p.id));
+  const unmappedPeople = allPeople.filter((p) => !isMapped(p.id));
+
+  /* generations — a longest path over the parent-child graph walked in
+     topological order, so a child's row is ALWAYS strictly below every one
+     of its recorded parents. Cycles (someone recorded as their own
+     ancestor) are blocked when a relationship is created, but a legacy file
+     may still contain one: those people are detected here, placed under
+     their nearest sane parent and reported, instead of being allowed to
+     scramble every row in the tree the way a relaxation pass would. */
+  const idSet = new Set(people.map((p) => p.id));
+  const pcEdges = state.rels.filter((r) => r.type === "parent-child" && idSet.has(r.parentId) && idSet.has(r.childId));
+  const indeg = {}, out = {};
+  people.forEach((p) => { indeg[p.id] = 0; out[p.id] = []; });
+  pcEdges.forEach((r) => { out[r.parentId].push(r.childId); indeg[r.childId]++; });
+
+  const gen = {}; people.forEach((p) => (gen[p.id] = 0));
+  const queue = people.filter((p) => !indeg[p.id]).map((p) => p.id);
+  const order = [];
+  while (queue.length) {
+    const id = queue.shift(); order.push(id);
+    out[id].forEach((c) => {
+      if (gen[c] < gen[id] + 1) gen[c] = gen[id] + 1;
+      if (--indeg[c] === 0) queue.push(c);
+    });
+  }
+  const cyclic = people.filter((p) => indeg[p.id] > 0).map((p) => p.id);
+  if (cyclic.length) {
+    const cySet = new Set(cyclic);
+    cyclic.forEach((id) => {
+      const ps = parentsOf(id).filter((x) => idSet.has(x) && !cySet.has(x));
+      gen[id] = ps.length ? Math.max(...ps.map((x) => gen[x])) + 1 : 0;
+    });
+  }
+  state.conflicts = cyclic;
+
+  const baseGen = Object.assign({}, gen);
+
+  /* spouses share a row; descendants are re-pushed afterwards so equalising
+     a couple can never leave a child level with — or above — a parent. */
+  for (let i = 0; i < 60; i++) {
+    let moved = false;
+    state.rels.forEach((r) => {
+      if (r.type !== "spouse") return;
+      if (gen[r.personA] === undefined || gen[r.personB] === undefined) return;
+      const m = Math.max(gen[r.personA], gen[r.personB]);
+      if (gen[r.personA] !== m || gen[r.personB] !== m) { gen[r.personA] = m; gen[r.personB] = m; moved = true; }
+    });
+    order.forEach((id) => out[id].forEach((c) => {
+      if (gen[c] < gen[id] + 1) { gen[c] = gen[id] + 1; moved = true; }
+    }));
+    if (!moved) break;
+    if (i === 59) {
+      /* legacy data can hold a couple whose rows can never agree; rather than
+         let it inflate every generation, fall back to the plain topological
+         rows, which always keep children below parents. */
+      people.forEach((p) => (gen[p.id] = baseGen[p.id]));
+      state.conflicts = people.map((p) => p.id).filter((id) => spousesOf(id).some((sx) => baseGen[sx] !== baseGen[id]));
+    }
+  }
+
+  let bbox = null, edges = [];
+  if (people.length) {
+
+  /* units */
+  const unitOf = {}; const units = [];
+  people.forEach((p) => {
+    if (unitOf[p.id]) return;
+    const members = [p.id];
+    /* Walk the whole marriage cluster, not just p's own partners, so a
+       second wife lands in the same household block as the husband even
+       when the block was started from the first wife. */
+    for (let qi = 0; qi < members.length; qi++) {
+      spousesOf(members[qi]).forEach((s) => {
+        if (!unitOf[s] && members.indexOf(s) === -1 && byId(s)) members.push(s);
+      });
+    }
+    /* Seat order inside a couple/household. With one marriage the man sits
+       on the left, as before. With several marriages the shared partner
+       (the person everyone in the unit is married to) sits in the MIDDLE
+       and the spouses alternate right, left, right… so each marriage line
+       touches the shared partner directly instead of stringing extra
+       spouses past someone they are not married to. */
+    if (members.length > 2) {
+      const cnt = (m) => members.filter((x) => x !== m && spousesOf(m).indexOf(x) !== -1).length;
+      let hub = members[0];
+      members.forEach((m) => { if (cnt(m) > cnt(hub)) hub = m; });
+      const others = spouseRels(hub)
+        .map((r) => (r.personA === hub ? r.personB : r.personA))
+        .filter((x) => members.indexOf(x) !== -1)
+        .concat(members.filter((x) => x !== hub));
+      const seen = new Set(); const ordered = [];
+      others.forEach((x) => { if (!seen.has(x)) { seen.add(x); ordered.push(x); } });
+      const left = [], right = [];
+      ordered.forEach((x, i) => (i % 2 === 0 ? right : left).push(x));
+      members.length = 0;
+      members.push(...left.reverse(), hub, ...right);
+    } else {
+      members.sort((a, b) => (byId(a).gender === "f" ? 1 : 0) - (byId(b).gender === "f" ? 1 : 0));
+    }
+    const u = { id: "u" + units.length, members, kids: [], parent: null, x: 0, gen: Math.max(...members.map((m) => gen[m])) };
+    units.push(u); members.forEach((m) => (unitOf[m] = u));
+  });
+
+  /* attach each unit under one parent unit (anchor) */
+  units.forEach((u) => {
+    for (const m of u.members) {
+      const ps = parentsOf(m);
+      if (!ps.length) continue;
+      const anchor = unitOf[ps.find((x) => byId(x) && byId(x).gender === "m") || ps[0]];
+      if (!anchor || anchor === u) continue;
+      let up = anchor, guard = 0, cyclic = false;
+      while (up && guard++ < 400) { if (up === u) { cyclic = true; break; } up = up.parent; }
+      if (cyclic) continue;
+      u.parent = anchor; anchor.kids.push(u); break;
+    }
+  });
+  units.forEach((u) => u.kids.sort((a, b) => {
+    const da = byId(u.kids ? a.members[0] : a.members[0]).birthDate || "9999";
+    const db = byId(b.members[0]).birthDate || "9999";
+    return da < db ? -1 : da > db ? 1 : 0;
+  }));
+
+  const unitWidth = (u) => u.members.length * NODE_W + (u.members.length - 1) * SPOUSE_GAP;
+  const shift = (u, dx) => { u.x += dx; u.kids.forEach((k) => shift(k, dx)); };
+
+  function place(u, x0, depth) {
+    if (depth > 200) { u.x = x0 + unitWidth(u) / 2; return unitWidth(u); }
+    const w = unitWidth(u);
+    if (!u.kids.length) { u.x = x0 + w / 2; return w; }
+    let cx = x0, total = 0;
+    u.kids.forEach((k, i) => {
+      if (i) { cx += SIB_GAP; total += SIB_GAP; }
+      const kw = place(k, cx, depth + 1);
+      cx += kw; total += kw;
+    });
+    const first = u.kids[0], last = u.kids[u.kids.length - 1];
+    u.x = (first.x + last.x) / 2;
+    if (w > total) {
+      const d = (w - total) / 2;
+      u.kids.forEach((k) => shift(k, d));
+      u.x = x0 + w / 2;
+      return w;
+    }
+    const minC = x0 + w / 2, maxC = x0 + total - w / 2;
+    u.x = Math.min(Math.max(u.x, minC), maxC);
+    return total;
+  }
+
+  let cursor = 0;
+  const roots = units.filter((u) => !u.parent).sort((a, b) => a.gen - b.gen);
+  roots.forEach((r) => { cursor += place(r, cursor, 0) + SIB_GAP * 2; });
+
+  /* member coordinates */
+  units.forEach((u) => {
+    const w = unitWidth(u);
+    let x = u.x - w / 2;
+    u.members.forEach((m) => {
+      nodes.set(m, { id: m, x, y: gen[m] * ROW_H, w: NODE_W, h: NODE_H, gen: gen[m], unit: u });
+      x += NODE_W + SPOUSE_GAP;
+    });
+  });
+
+  /* separation sweep — hard guarantee against overlap */
+  const rows = {};
+  nodes.forEach((n) => { (rows[n.gen] = rows[n.gen] || []).push(n); });
+  Object.values(rows).forEach((row) => {
+    row.sort((a, b) => a.x - b.x);
+    for (let i = 1; i < row.length; i++) {
+      const need = row[i - 1].x + NODE_W + (row[i].unit === row[i - 1].unit ? SPOUSE_GAP : MIN_GAP);
+      if (row[i].x < need) row[i].x = need;
+    }
+  });
+  units.forEach((u) => {
+    const ms = u.members.map((m) => nodes.get(m));
+    u.cx = (Math.min(...ms.map((m) => m.x)) + Math.max(...ms.map((m) => m.x + NODE_W))) / 2;
+    u.cy = ms[0].y;
+  });
+
+  /* edges */
+  state.rels.forEach((r) => {
+    if (r.type === "spouse") {
+      const a = nodes.get(r.personA), b = nodes.get(r.personB);
+      if (!a || !b) return;
+      const l = a.x < b.x ? a : b, rr = a.x < b.x ? b : a;
+      edges.push({ kind: "spouse", rel: r, people: [r.personA, r.personB],
+        d: `M ${l.x + NODE_W} ${l.y + NODE_H / 2} L ${rr.x} ${rr.y + NODE_H / 2}`,
+        cls: r.status === "divorced" ? "divorced" : "" });
+    } else {
+      const c = nodes.get(r.childId), p = nodes.get(r.parentId);
+      if (!c || !p) return;
+      const pu = p.unit;
+      const otherParents = parentsOf(r.childId).filter((x) => x !== r.parentId);
+      const coupled = otherParents.some((x) => nodes.get(x) && nodes.get(x).unit === pu);
+      const sx = coupled ? pu.cx : p.x + NODE_W / 2;
+      const sy = p.y + NODE_H;
+      const ex = c.x + NODE_W / 2, ey = c.y;
+      const my = sy + Math.max(28, (ey - sy) / 2);
+      const rr2 = 12;
+      /* When the line drops from a couple, the marriage line sits at the
+         cards' vertical center (see the spouse edge below), not at their
+         bottom edge. Starting the descent at the bottom edge left a gap
+         between the marriage line and the trunk, making the lineage look
+         broken. Stub the trunk up to meet the marriage line exactly — the
+         extra segment falls in the empty gap between the two spouse cards,
+         not over either card, so nothing gets drawn on top of a node. */
+      const lead = coupled ? `M ${sx} ${p.y + NODE_H / 2} L ${sx} ${sy} ` : `M ${sx} ${sy} `;
+      let d;
+      if (Math.abs(sx - ex) < 1) d = lead + `L ${ex} ${ey}`;
+      else {
+        const dir = ex > sx ? 1 : -1;
+        d = lead + `L ${sx} ${my - rr2} Q ${sx} ${my} ${sx + dir * rr2} ${my} L ${ex - dir * rr2} ${my} Q ${ex} ${my} ${ex} ${my + rr2} L ${ex} ${ey}`;
+      }
+      if (coupled && otherParents.length && r.parentId !== [r.parentId, ...otherParents].sort()[0]) return; // draw once per couple
+      edges.push({ kind: "pc", rel: r, people: [r.parentId, r.childId].concat(coupled ? otherParents : []),
+        d, cls: r.subtype === "adopted" ? "adopted" : "" });
+    }
+  });
+
+  /* sibling connectors — a distinct line from parent-child descent, drawn
+     between people who share at least one recorded parent. Union-find
+     groups a whole sibling set (even linked only through half-sibling
+     chains) so it's one connector per adjacent pair, not a pairwise mesh. */
+  const ufParent = {};
+  const ufFind = (x) => { if (!(x in ufParent)) ufParent[x] = x; return ufParent[x] === x ? x : (ufParent[x] = ufFind(ufParent[x])); };
+  const ufUnion = (a, b) => { const ra = ufFind(a), rb = ufFind(b); if (ra !== rb) ufParent[ra] = rb; };
+  people.forEach((p) => siblingsOf(p.id).forEach((sid) => { if (nodes.has(sid)) ufUnion(p.id, sid); }));
+  const sibGroups = {};
+  nodes.forEach((n, id) => { if (parentsOf(id).length) (sibGroups[ufFind(id)] = sibGroups[ufFind(id)] || []).push(id); });
+  const fullSiblingPair = (a, b) => {
+    const pa = parentsOf(a), pb = parentsOf(b);
+    if (!pa.length || !pb.length || pa.length !== pb.length) return false;
+    return pa.every((x) => pb.includes(x));
+  };
+  Object.values(sibGroups).forEach((group) => {
+    if (group.length < 2) return;
+    const pts = group.map((id) => nodes.get(id)).sort((a, b) => a.x - b.x);
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i];
+      const cls = fullSiblingPair(a.id, b.id) ? "" : "half";
+      /* Siblings are joined the same way a married couple is: one straight
+         dotted line from the right edge of one card to the left edge of the
+         next, at the cards' vertical centre. If another card sits in the gap
+         between them (a spouse married into the row, say), the straight run
+         would cross it — only then do we route the connector over the top. */
+      const gapL = a.x + NODE_W, gapR = b.x, cy = a.y + NODE_H / 2;
+      const blocked = a.y !== b.y || [...nodes.values()].some((n) =>
+        n.id !== a.id && n.id !== b.id && n.y === a.y &&
+        n.x + NODE_W > gapL + 1 && n.x < gapR - 1);
+      const d = blocked
+        ? `M ${a.x + NODE_W / 2} ${a.y} L ${a.x + NODE_W / 2} ${a.y - 16} L ${b.x + NODE_W / 2} ${b.y - 16} L ${b.x + NODE_W / 2} ${b.y}`
+        : `M ${gapL} ${cy} L ${gapR} ${cy}`;
+      edges.push({ kind: "sibling", rel: null, people: [a.id, b.id], d, cls });
+    }
+  });
+
+
+  const xs = [...nodes.values()];
+  bbox = {
+    x: Math.min(...xs.map((n) => n.x)), y: Math.min(...xs.map((n) => n.y)),
+    x2: Math.max(...xs.map((n) => n.x + NODE_W)), y2: Math.max(...xs.map((n) => n.y + NODE_H))
+  };
+  bbox.w = bbox.x2 - bbox.x; bbox.h = bbox.y2 - bbox.y;
+
+  } // end if (people.length)
+
+  /* unmapped zone — a single horizontal strip beneath the tree (or from the
+     origin, if the whole Vanshavali is currently unmapped), inside its own
+     labeled, dashed boundary. Like every generation row it only ever grows
+     sideways: isolated people are never wrapped onto a second line, and
+     never masquerade as generation-0 ancestors of the main tree. */
+  let unmappedZone = null;
+  if (unmappedPeople.length) {
+    const gapX = MIN_GAP, labelH = 34, pad = 22;
+    const zoneLeft = bbox ? bbox.x : 0;
+    const zoneTop = (bbox ? bbox.y2 : 0) + (bbox ? ROW_GAP * 1.6 : 0) + labelH;
+    unmappedPeople.forEach((p, i) => {
+      nodes.set(p.id, {
+        id: p.id, x: zoneLeft + i * (NODE_W + gapX), y: zoneTop,
+        w: NODE_W, h: NODE_H, gen: "unmapped", unit: null
+      });
+    });
+    const n = unmappedPeople.length;
+    const zw = n * NODE_W + (n - 1) * gapX;
+    const zh = NODE_H;
+    unmappedZone = { x: zoneLeft - pad, y: zoneTop - pad - labelH, w: zw + pad * 2, h: zh + pad * 2 + labelH };
+    if (!bbox) {
+      bbox = { x: unmappedZone.x, y: unmappedZone.y, x2: unmappedZone.x + unmappedZone.w, y2: unmappedZone.y + unmappedZone.h };
+      bbox.w = bbox.x2 - bbox.x; bbox.h = bbox.y2 - bbox.y;
+    } else {
+      bbox.x = Math.min(bbox.x, unmappedZone.x); bbox.y = Math.min(bbox.y, unmappedZone.y);
+      bbox.x2 = Math.max(bbox.x2, unmappedZone.x + unmappedZone.w); bbox.y2 = Math.max(bbox.y2, unmappedZone.y + unmappedZone.h);
+      bbox.w = bbox.x2 - bbox.x; bbox.h = bbox.y2 - bbox.y;
+    }
+  }
+
+  const allXs = [...nodes.values()];
+  const gens = [...new Set(allXs.map((n) => n.gen).filter((g) => typeof g === "number"))].sort((a, b) => a - b);
+  state.layout = { nodes, edges, bbox, gens, unmappedZone };
+}
+
+/* ============================ RENDER ============================ */
+const $ = (s) => document.querySelector(s);
+const svg = $("#svg"), gViewport = $("#viewport"), gNodes = $("#nodes"), gEdges = $("#edges");
+const NS = "http://www.w3.org/2000/svg";
+
+/* ---------------------- APPEARANCE (light / dark) ----------------------
+   Colors live in CSS variables, so SVG/canvas drawing code reads the
+   resolved value through cssVar(). The cache is cleared on theme change. */
+let _cssCache = {};
+function cssVar(name) {
+  if (!(name in _cssCache)) {
+    _cssCache[name] = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  return _cssCache[name];
+}
+const THEME_KEY = "vanshavali.theme";
+const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+function systemTheme() { return themeMedia.matches ? "dark" : "light"; }
+function storedTheme() {
+  try { const v = localStorage.getItem(THEME_KEY); return v === "light" || v === "dark" ? v : null; }
+  catch { return null; }
+}
+function currentTheme() { return document.documentElement.getAttribute("data-theme") || systemTheme(); }
+function applyTheme(theme, { persist = false, repaint = true } = {}) {
+  document.documentElement.setAttribute("data-theme", theme);
+  _cssCache = {};
+  if (persist) { try { localStorage.setItem(THEME_KEY, theme); } catch {} }
+  const btn = $("#themeBtn");
+  if (btn) {
+    const toLight = theme === "dark";
+    btn.setAttribute("aria-label", toLight ? "Switch to light appearance" : "Switch to dark appearance");
+    btn.setAttribute("title", toLight ? "Light appearance" : "Dark appearance");
+    btn.setAttribute("aria-pressed", String(theme === "dark"));
+  }
+  if (repaint && typeof render === "function" && state && state.layout) render();
+}
+applyTheme(storedTheme() || systemTheme(), { repaint: false });
+themeMedia.addEventListener("change", () => { if (!storedTheme()) applyTheme(systemTheme()); });
+
+
+const yearOf = (d) => (d ? String(d).slice(0, 4) : "");
+const lifeLine = (p) => {
+  const b = yearOf(p.birthDate), d = yearOf(p.deathDate);
+  if (p.deceased) return (b || "?") + " – " + (d || "?");
+  return b ? b + " –" : "—";
+};
+const fullName = (p) => (p.firstName + " " + (p.lastName || "")).trim();
+const initials = (p) => (((p.firstName || "").trim()[0] || "") + ((p.lastName || "").trim()[0] || "") || "?").toUpperCase();
+
+/* Names are variable length but the card is fixed width, so long names were
+   overflowing past the edge of the node. Measure against the actual font
+   and truncate with an ellipsis so a name never escapes its card; the full
+   name is still available via a <title> tooltip and the inspector panel. */
+const NAME_MAX_W = NODE_W - 70 - 14; // card width minus text x-offset minus right padding
+let fitCtx = null;
+function fitText(text, maxWidth, font) {
+  if (!fitCtx) fitCtx = document.createElement("canvas").getContext("2d");
+  fitCtx.font = font;
+  if (fitCtx.measureText(text).width <= maxWidth) return text;
+  let lo = 0, hi = text.length;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (fitCtx.measureText(text.slice(0, mid) + "…").width <= maxWidth) lo = mid; else hi = mid - 1;
+  }
+  return lo ? text.slice(0, lo) + "…" : "…";
+}
+const fitName = (p) => fitText(fullName(p), NAME_MAX_W, "560 13.5px -apple-system,BlinkMacSystemFont,Segoe UI,Inter,system-ui,sans-serif");
+
+function nodeEl(p, n) {
+  const g = document.createElementNS(NS, "g");
+  g.setAttribute("class", "node");
+  g.setAttribute("data-id", p.id);
+  g.setAttribute("tabindex", "0");
+  g.setAttribute("role", "button");
+  g.setAttribute("aria-label", fullName(p) + ", " + lifeLine(p));
+  g.innerHTML = `
+    <rect class="card" x="0" y="0" width="${NODE_W}" height="${NODE_H}" rx="15"
+      fill="${cssVar(p.gender === "f" ? "--node-f" : "--node-m")}" stroke="${cssVar("--node-stroke")}" stroke-width="1"/>
+    <clipPath id="clip-${p.id}"><circle cx="38" cy="37" r="21"/></clipPath>
+    <circle cx="38" cy="37" r="21" fill="${cssVar(p.gender === "f" ? "--avatar-f" : "--avatar-m")}" stroke="${cssVar("--avatar-stroke")}"/>
+    ${p.profilePhoto
+      ? `<image href="${esc(p.profilePhoto)}" x="17" y="16" width="42" height="42" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-${p.id})"/>`
+      : `<text class="ini" x="38" y="42">${esc(initials(p))}</text>`}
+    <text class="nm" x="70" y="34">${esc(fitName(p))}</text>
+    <text class="dt" x="70" y="52">${esc(lifeLine(p))}</text>
+    ${p.deceased ? `<circle cx="${NODE_W - 15}" cy="15" r="3" fill="${cssVar("--deceased-dot")}"/>` : ""}
+    <title>${esc(fullName(p))}</title>
+  `;
+  g.addEventListener("click", (e) => { e.stopPropagation(); select(p.id); });
+  g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(p.id); } });
+  return g;
+}
+
+const gZones = $("#zones");
+function render() {
+  computeLayout();
+  const { nodes, edges, unmappedZone } = state.layout;
+  $("#empty").classList.toggle("show", state.people.length === 0);
+
+  /* unmapped zone */
+  gZones.innerHTML = unmappedZone
+    ? `<rect class="zone-unmapped-rect" x="${unmappedZone.x}" y="${unmappedZone.y}" width="${unmappedZone.w}" height="${unmappedZone.h}" rx="18"/>
+       <text class="zone-unmapped-label" x="${unmappedZone.x + 22}" y="${unmappedZone.y + 26}">Unmapped</text>`
+    : "";
+
+  /* nodes (diffed, so transforms animate) */
+  const seen = new Set();
+  nodes.forEach((n, id) => {
+    const p = byId(id); if (!p) return;
+    seen.add(id);
+    let el = gNodes.querySelector(`[data-id="${id}"]`);
+    if (el) { const fresh = nodeEl(p, n); el.replaceWith(fresh); el = fresh; }
+    else { el = nodeEl(p, n); gNodes.appendChild(el); requestAnimationFrame(() => el.setAttribute("transform", `translate(${n.x},${n.y})`)); }
+    el.setAttribute("transform", `translate(${n.x},${n.y})`);
+  });
+  [...gNodes.children].forEach((c) => { if (!seen.has(c.getAttribute("data-id"))) c.remove(); });
+
+  /* edges */
+  hideEdgeDelete(0);
+  gEdges.innerHTML = edges.map((e, i) =>
+    `<path class="edge ${e.kind} ${e.cls}" d="${e.d}" data-edge="${i}" data-people="${e.people.join(",")}"/>` +
+    `<path class="edge-hit" d="${e.d}" data-edge="${i}"/>`).join("");
+
+  paintStates();
+}
+
+function paintStates() {
+  const circle = state.selected ? lineageOf(state.selected) : null;
+  [...gNodes.children].forEach((el) => {
+    const id = el.getAttribute("data-id");
+    const sel = id === state.selected;
+    const card = el.querySelector(".card");
+    card.setAttribute("stroke", sel ? cssVar("--accent") : cssVar("--node-stroke"));
+    card.setAttribute("stroke-width", sel ? "2" : "1");
+    el.classList.toggle("dim", !!circle && !circle.has(id));
+  });
+  [...gEdges.children].forEach((el) => {
+    const ppl = (el.getAttribute("data-people") || "").split(",");
+    const hot = !!circle && ppl.every((x) => circle.has(x));
+    el.classList.toggle("dim", !!circle && !hot);
+    el.classList.toggle("hot", hot);
+  });
+}
+
+/* ============ DELETE A RELATIONSHIP FROM ITS LINE ============ */
+const edgeDelBtn = $("#edgeDel"), canvasWrap = $("#canvasWrap");
+let hoverEdgeIdx = null, hideEdgeT = 0;
+
+function hideEdgeDelete(delay) {
+  clearTimeout(hideEdgeT);
+  const doIt = () => {
+    hoverEdgeIdx = null;
+    edgeDelBtn.hidden = true;
+    gEdges.querySelectorAll(".edge.hovered").forEach((el) => el.classList.remove("hovered"));
+  };
+  if (!delay) doIt(); else hideEdgeT = setTimeout(doIt, delay);
+}
+
+function showEdgeDelete(idx, hitPath) {
+  clearTimeout(hideEdgeT);
+  hoverEdgeIdx = idx;
+  gEdges.querySelectorAll(".edge.hovered").forEach((el) => el.classList.remove("hovered"));
+  const vis = gEdges.querySelector(`.edge[data-edge="${idx}"]`);
+  if (vis) vis.classList.add("hovered");
+  const len = hitPath.getTotalLength();
+  const pt = hitPath.getPointAtLength(len / 2);
+  const m = hitPath.getScreenCTM();
+  if (!m) return;
+  const sp = new DOMPoint(pt.x, pt.y).matrixTransform(m);
+  const wrap = canvasWrap.getBoundingClientRect();
+  edgeDelBtn.style.left = (sp.x - wrap.left) + "px";
+  edgeDelBtn.style.top = (sp.y - wrap.top) + "px";
+  edgeDelBtn.hidden = false;
+}
+
+gEdges.addEventListener("mouseover", (e) => {
+  const hit = e.target.closest && e.target.closest(".edge-hit");
+  if (hit) showEdgeDelete(+hit.dataset.edge, hit);
+});
+gEdges.addEventListener("mouseout", (e) => {
+  if (e.target.closest && e.target.closest(".edge-hit")) hideEdgeDelete(260);
+});
+edgeDelBtn.addEventListener("mouseenter", () => clearTimeout(hideEdgeT));
+edgeDelBtn.addEventListener("mouseleave", () => hideEdgeDelete(140));
+edgeDelBtn.addEventListener("click", (ev) => { ev.stopPropagation(); confirmDeleteEdge(hoverEdgeIdx); });
+
+async function confirmDeleteEdge(idx) {
+  const e = state.layout.edges[idx];
+  if (!e) return;
+  const nm = (id) => { const x = byId(id); return x ? esc(fullName(x)) : "this person"; };
+  hideEdgeDelete(0);
+
+  if (e.kind === "sibling") {
+    const a = e.people[0], b = e.people[1];
+    const shared = parentRels(b).filter((r) => parentsOf(a).indexOf(r.parentId) !== -1);
+    if (!shared.length) return;
+    const yes = await confirmDialog("Remove sibling link?",
+      `<b>${nm(a)}</b> and <b>${nm(b)}</b> appear as siblings because they share ${shared.length === 1 ? "a parent" : shared.length + " parents"}.
+       Removing this link will also remove <b>${nm(b)}</b>'s link to ${shared.length === 1 ? "that parent" : "those parents"}.`,
+      "Remove", true);
+    if (!yes) return;
+    const ids = shared.map((r) => r.id);
+    state.rels = state.rels.filter((r) => ids.indexOf(r.id) === -1);
+  } else if (e.kind === "spouse") {
+    const divorced = e.rel && e.rel.status === "divorced";
+    const yes = await confirmDialog(divorced ? "Remove divorce record?" : "Remove marriage?",
+      `Remove the ${divorced ? "divorce record" : "marriage"} between <b>${nm(e.rel.personA)}</b> and <b>${nm(e.rel.personB)}</b>?`,
+      "Remove", true);
+    if (!yes) return;
+    state.rels = state.rels.filter((r) => r.id !== e.rel.id);
+  } else {
+    const yes = await confirmDialog("Remove parent link?",
+      `Remove the parent link between <b>${nm(e.rel.parentId)}</b> and <b>${nm(e.rel.childId)}</b>?`,
+      "Remove", true);
+    if (!yes) return;
+    state.rels = state.rels.filter((r) => r.id !== e.rel.id);
+  }
+  render();
+  if (state.selected && byId(state.selected)) renderInspector();
+  toast("Relationship removed");
+}
+
+/* ========================= PAN / ZOOM ========================= */
+function applyView() {
+  hideEdgeDelete(0);
+  gViewport.setAttribute("transform", `translate(${state.tx},${state.ty}) scale(${state.zoom})`);
+  $("#zoomVal").textContent = Math.round(state.zoom * 100) + "%";
+}
+const clampZoom = (z) => Math.min(2.6, Math.max(0.12, z));
+
+/* Wheel events on a trackpad can fire far faster than the display can paint.
+   Coalescing to one update per animation frame (instead of one DOM write per
+   native event) keeps zooming smooth under rapid input. */
+let wheelPending = null, wheelRaf = 0;
+svg.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const r = svg.getBoundingClientRect();
+  wheelPending = { deltaY: e.deltaY, deltaMode: e.deltaMode, clientX: e.clientX - r.left, clientY: e.clientY - r.top };
+  if (wheelRaf) return;
+  wheelRaf = requestAnimationFrame(() => {
+    wheelRaf = 0;
+    if (!wheelPending) return;
+    const { deltaY, deltaMode, clientX: px, clientY: py } = wheelPending;
+    wheelPending = null;
+    const dy = deltaY * (deltaMode === 1 ? 16 : deltaMode === 2 ? 100 : 1);
+    const next = clampZoom(state.zoom * Math.exp(-dy * 0.0016));
+    const k = next / state.zoom;
+    state.tx = px - (px - state.tx) * k;
+    state.ty = py - (py - state.ty) * k;
+    state.zoom = next;
+    applyView();
+  });
+}, { passive: false });
+
+let drag = null;
+/* Pointer capture must NOT be taken on every press — only once an actual
+   drag starts. Capturing immediately on pointerdown causes some browsers to
+   redirect the resulting "click" event's target to the <svg> itself instead
+   of the node underneath the cursor, so a plain click on a node never
+   reaches its own click handler (nothing appears to happen). Deferring
+   capture until real movement is detected keeps panning smooth while
+   letting ordinary node clicks fire normally. */
+svg.addEventListener("pointerdown", (e) => {
+  if (e.button !== 0) return;
+  drag = { id: e.pointerId, x: e.clientX, y: e.clientY, tx: state.tx, ty: state.ty, moved: false, captured: false };
+});
+let dragRaf = 0;
+svg.addEventListener("pointermove", (e) => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (!drag.moved && Math.abs(dx) + Math.abs(dy) > 3) {
+    drag.moved = true;
+    svg.classList.add("dragging");
+    if (!drag.captured) { try { svg.setPointerCapture(drag.id); } catch (err) {} drag.captured = true; }
+  }
+  if (!drag.moved) return;
+  state.tx = drag.tx + dx;
+  state.ty = drag.ty + dy;
+  if (dragRaf) return;
+  dragRaf = requestAnimationFrame(() => { dragRaf = 0; applyView(); });
+});
+svg.addEventListener("pointerup", (e) => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const moved = drag.moved;
+  if (drag.captured) { try { svg.releasePointerCapture(drag.id); } catch (err) {} }
+  drag = null; svg.classList.remove("dragging");
+  if (!moved && e.target === svg) { state.selected = null; closeInspector(); paintStates(); }
+});
+svg.addEventListener("pointercancel", (e) => {
+  if (drag && drag.captured) { try { svg.releasePointerCapture(drag.id); } catch (err) {} }
+  drag = null; svg.classList.remove("dragging");
+});
+
+function zoomAtCenter(f) {
+  const r = svg.getBoundingClientRect();
+  const px = r.width / 2, py = r.height / 2;
+  const next = clampZoom(state.zoom * f), k = next / state.zoom;
+  state.tx = px - (px - state.tx) * k; state.ty = py - (py - state.ty) * k;
+  state.zoom = next; applyView();
+}
+function fitToView(animate) {
+  const b = state.layout.bbox; if (!b) return;
+  const r = svg.getBoundingClientRect();
+  const pad = 90;
+  /* very wide Vanshavalis (the normal shape, since the tree only grows
+     sideways) would shrink to an unreadable sliver if we insisted on
+     fitting the full width. Below a legible floor we keep the zoom at that
+     floor and anchor the view to the left edge, so it is read by panning
+     sideways instead of by squinting. */
+  const raw = Math.min((r.width - pad * 2) / b.w, (r.height - pad * 2) / b.h, 1.3);
+  const MIN_LEGIBLE = 0.3;
+  const z = clampZoom(Math.max(raw, MIN_LEGIBLE));
+  const tx = raw < MIN_LEGIBLE ? pad - b.x * z : r.width / 2 - (b.x + b.w / 2) * z;
+  const ty = raw < MIN_LEGIBLE ? pad - b.y * z : r.height / 2 - (b.y + b.h / 2) * z;
+  animate === false ? (Object.assign(state, { zoom: z, tx, ty }), applyView()) : animateView(z, tx, ty);
+}
+/* Zoom/pan so exactly the selected person's highlighted lineage (ancestors +
+   descendants + their spouses) fills the view — useful for jumping straight
+   to one branch inside a tree of hundreds of people. */
+function fitToLineage(id) {
+  const circle = lineageOf(id);
+  const pts = [...circle].map((pid) => state.layout.nodes.get(pid)).filter(Boolean);
+  if (pts.length <= 1) return centerOn(id);
+  const minX = Math.min(...pts.map((n) => n.x)), maxX = Math.max(...pts.map((n) => n.x + NODE_W));
+  const minY = Math.min(...pts.map((n) => n.y)), maxY = Math.max(...pts.map((n) => n.y + NODE_H));
+  const w = maxX - minX, h = maxY - minY;
+  const r = svg.getBoundingClientRect();
+  const pad = 90;
+  const z = clampZoom(Math.min((r.width - pad * 2) / w, (r.height - pad * 2) / h, 1.3));
+  const tx = r.width / 2 - (minX + w / 2) * z;
+  const ty = r.height / 2 - (minY + h / 2) * z;
+  animateView(z, tx, ty);
+}
+function centerOn(id) {
+  const n = state.layout.nodes.get(id); if (!n) return;
+  const r = svg.getBoundingClientRect();
+  const z = Math.max(state.zoom, 0.55);
+  animateView(z, r.width / 2 - (n.x + NODE_W / 2) * z, r.height / 2 - (n.y + NODE_H / 2) * z);
+}
+let anim = null;
+function animateView(z, tx, ty) {
+  if (anim) cancelAnimationFrame(anim);
+  const s = { z: state.zoom, tx: state.tx, ty: state.ty }, t0 = performance.now(), dur = 420;
+  const step = (t) => {
+    const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    state.zoom = s.z + (z - s.z) * e; state.tx = s.tx + (tx - s.tx) * e; state.ty = s.ty + (ty - s.ty) * e;
+    applyView();
+    if (k < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
+
+/* ========================= INSPECTOR ========================= */
+function select(id, opts) {
+  state.selected = id;
+  openInspector();
+  try { paintStates(); } catch (err) { console.error("paintStates failed:", err); }
+  if (!opts || opts.center !== false) centerOn(id);
+}
+function openInspector() { $("#inspector").classList.add("open"); renderInspector(); }
+function closeInspector() { $("#inspector").classList.remove("open"); }
+$("#closeInsp").addEventListener("click", () => { state.selected = null; closeInspector(); paintStates(); });
+
+function avatarHTML(p, size) {
+  if (p.profilePhoto) return `<img class="avatar" src="${esc(p.profilePhoto)}" width="${size}" height="${size}" alt="">`;
+  return `<span class="avatar" style="width:${size}px;height:${size}px;display:grid;place-items:center;font-size:${Math.round(size / 2.6)}px;color:var(--node-ini);background:${p.gender === "f" ? "var(--avatar-f)" : "var(--avatar-m)"}">${esc(initials(p))}</span>`;
+}
+function bigPhotoHTML(p) {
+  if (p.profilePhoto) return `<img class="insp-photo" src="${esc(p.profilePhoto)}" alt="${esc(fullName(p))}">`;
+  return `<div class="insp-photo" style="display:grid;place-items:center;font-size:38px;color:var(--ini-muted)">${esc(initials(p))}</div>`;
+}
+const fmtDate = (d) => d ? new Date(d + "T00:00:00").toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" }) : "—";
+/* Country dialling codes offered for telephone / mobile numbers. */
+const DIAL_CODES = [
+  ["+91", "India +91"], ["+1", "USA / Canada +1"], ["+44", "UK +44"], ["+61", "Australia +61"],
+  ["+64", "New Zealand +64"], ["+65", "Singapore +65"], ["+971", "UAE +971"], ["+966", "Saudi Arabia +966"],
+  ["+974", "Qatar +974"], ["+968", "Oman +968"], ["+60", "Malaysia +60"], ["+27", "South Africa +27"],
+  ["+254", "Kenya +254"], ["+49", "Germany +49"], ["+33", "France +33"], ["+39", "Italy +39"],
+  ["+34", "Spain +34"], ["+31", "Netherlands +31"], ["+41", "Switzerland +41"], ["+46", "Sweden +46"],
+  ["+7", "Russia +7"], ["+81", "Japan +81"], ["+82", "South Korea +82"], ["+86", "China +86"],
+  ["+852", "Hong Kong +852"], ["+880", "Bangladesh +880"], ["+92", "Pakistan +92"], ["+94", "Sri Lanka +94"],
+  ["+977", "Nepal +977"], ["+55", "Brazil +55"], ["+52", "Mexico +52"]
+];
+const phoneText = (code, num) => (num && String(num).trim()) ? `${(code || "").trim()} ${String(num).trim()}`.trim() : "—";
+const dialOptions = (sel) => DIAL_CODES.map(([c, l]) => `<option value="${c}"${(sel || "+91") === c ? " selected" : ""}>${l}</option>`).join("");
+
+function renderInspector() {
+  const p = byId(state.selected); if (!p) return;
+  const ico = (d) => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">${d}</svg>`;
+  const subtypeSelect = (relId, subtype) => `<select class="rel-subtype-select" data-relid="${relId}">
+      <option value="biological"${subtype !== "adopted" ? " selected" : ""}>Biological</option>
+      <option value="adopted"${subtype === "adopted" ? " selected" : ""}>Adopted</option>
+    </select>`;
+  const relRow = (label, person, opts) => {
+    opts = opts || {};
+    if (!person) return `<div class="rel-row" style="cursor:default"><span class="avatar" style="width:32px;height:32px"></span><span><span class="k">${label}</span><span class="v" style="display:block;color:var(--text-faint)">—</span></span></div>`;
+    return `<div class="rel-row-wrap">
+        <button class="rel-row" data-goto="${person.id}">${avatarHTML(person, 32)}<span><span class="k">${label}</span><span class="v" style="display:block">${esc(fullName(person))}</span></span>
+          <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 6 6 6-6 6"/></svg></button>
+        ${opts.extra || ""}
+        ${opts.relId ? `<button class="icon-btn" data-unlink="${opts.relId}" title="Remove ${esc(label)}" aria-label="Remove ${esc(label)}">✕</button>` : ""}
+      </div>`;
+  };
+
+  let tabBody = "";
+  if (state.tab === "overview") {
+    tabBody = `
+      <div class="field">${ico('<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/>')}<div><div class="k">Born</div><div class="v">${fmtDate(p.birthDate)}</div></div></div>
+      ${p.deceased ? `<div class="field">${ico('<path d="M12 21V8M7 8h10M9 4h6v4H9z"/>')}<div><div class="k">Died</div><div class="v">${fmtDate(p.deathDate)}</div></div></div>` : ""}
+      <div class="field">${ico('<path d="M12 21s7-5.2 7-10a7 7 0 1 0-14 0c0 4.8 7 10 7 10Z"/><circle cx="12" cy="11" r="2.4"/>')}<div><div class="k">Place of birth</div><div class="v">${esc(p.birthPlace) || "—"}</div></div></div>
+      <div class="field">${ico('<path d="M6 3h4l2 5-2.5 1.5a12 12 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3Z"/>')}<div><div class="k">Telephone</div><div class="v">${esc(phoneText("", p.telephone))}</div></div></div>
+      <div class="field">${ico('<rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M11 18.5h2"/>')}<div><div class="k">Mobile</div><div class="v">${esc(phoneText(p.mobCode, p.mobile))}</div></div></div>
+      ${(p.mobile2 || "").trim() ? `<div class="field">${ico('<rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M11 18.5h2"/>')}<div><div class="k">Mobile 2</div><div class="v">${esc(phoneText(p.mob2Code, p.mobile2))}</div></div></div>` : ""}
+      <div class="field">${ico('<path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/>')}<div><div class="k">Notes</div><div class="v">${esc(p.notes) || "—"}</div></div></div>
+      <div class="field">${ico('<circle cx="12" cy="12" r="9"/><path d="M12 8v5"/>')}<div><div class="k">Status</div><div class="v">${p.deceased ? "Deceased" : "Living"}</div></div></div>`;
+  } else if (state.tab === "relationships") {
+    const kids = childrenOf(p.id).map(byId).filter(Boolean);
+    const sibs = siblingsOf(p.id).map(byId).filter(Boolean);
+    const sps = spouseRels(p.id);
+    const pRows = parentRels(p.id).map((r) => ({ r, per: byId(r.parentId) })).filter((x) => x.per);
+    const fatherRows = pRows.filter((x) => x.per.gender !== "f");
+    const motherRows = pRows.filter((x) => x.per.gender === "f");
+    const parentRows = (rows, label) => rows.length
+      ? rows.map((x, i) => relRow(rows.length > 1 ? `${label} ${i + 1} · duplicate` : label, x.per,
+          { relId: x.r.id, extra: subtypeSelect(x.r.id, x.r.subtype) })).join("")
+      : relRow(label, null);
+    tabBody = `
+      ${parentRows(fatherRows, "Father")}
+      ${parentRows(motherRows, "Mother")}
+      ${sps.length ? sps.map((r) => {
+        const other = byId(r.personA === p.id ? r.personB : r.personA);
+        const extra = `<select class="rel-status-select" data-relid="${r.id}">
+          <option value="married"${r.status !== "divorced" ? " selected" : ""}>Married</option>
+          <option value="divorced"${r.status === "divorced" ? " selected" : ""}>Divorced</option>
+        </select>`;
+        return relRow("Spouse", other, { relId: r.id, extra });
+      }).join("") : relRow("Spouse", null)}
+      <div class="sec-title">Children</div>
+      ${kids.length ? kids.map((k) => {
+        const rel = state.rels.find((r) => r.type === "parent-child" && r.parentId === p.id && r.childId === k.id);
+        return relRow("Child", k, { relId: rel && rel.id, extra: rel ? subtypeSelect(rel.id, rel.subtype) : "" });
+      }).join("") : `<div style="font-size:13px;color:var(--text-faint);padding:6px 8px">No children recorded</div>`}
+      <div class="sec-title">Siblings</div>
+      ${sibs.length ? sibs.map((s) => relRow("Sibling", s)).join("") : `<div style="font-size:13px;color:var(--text-faint);padding:6px 8px">No siblings recorded</div>`}
+      <div style="font-size:11px;color:var(--text-faint);padding:2px 8px 0">Siblings follow from shared parents above — edit or remove a parent link to change them.</div>
+      <div class="divider"></div>
+      <button class="btn sm" id="linkRelBtn">＋ Add relationship</button>`;
+  } else {
+    const media = p.media || [];
+    tabBody = `
+      <div class="sec-title" style="margin-top:0">Profile photo</div>
+      <div class="photo-pick">
+        ${p.profilePhoto ? `<img src="${esc(p.profilePhoto)}" alt="">` : `<div style="width:72px;height:72px;border-radius:14px;border:1px solid var(--border);display:grid;place-items:center;color:var(--ini-muted)">${esc(initials(p))}</div>`}
+        <div style="display:flex;gap:8px">
+          <button class="btn sm" id="editDp">Edit DP</button>
+          ${p.profilePhoto ? `<button class="btn sm danger" id="removeDp">Remove</button>` : ""}
+        </div>
+      </div>
+      <div class="sec-title">Media</div>
+      <div class="media-grid">
+        ${media.map((m, i) => `<img src="${esc(m)}" alt="Photo ${i + 1}">`).join("")}
+        <button class="media-add" id="addMedia"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add</button>
+      </div>`;
+  }
+
+  $("#inspBody").innerHTML = `
+    ${bigPhotoHTML(p)}
+    <div class="insp-headrow">
+      <div><div class="insp-name">${esc(fullName(p))}</div><div class="insp-dates">${esc(lifeLine(p)).replace("–", p.deceased ? "–" : "– Present")}</div></div>
+      <div class="head-actions">
+        <button class="btn sm" id="editPerson">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20h4L20 8l-4-4L4 16v4Z"/></svg>Edit</button>
+        <button class="btn sm danger" id="deletePerson">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>Delete</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <button data-tab="overview" class="${state.tab === "overview" ? "on" : ""}">Overview</button>
+      <button data-tab="relationships" class="${state.tab === "relationships" ? "on" : ""}">Relationships</button>
+      <button data-tab="media" class="${state.tab === "media" ? "on" : ""}">Media</button>
+    </div>
+    ${tabBody}`;
+
+  $("#inspBody").querySelectorAll("[data-tab]").forEach((b) =>
+    b.addEventListener("click", () => { state.tab = b.dataset.tab; renderInspector(); }));
+  $("#inspBody").querySelectorAll("[data-goto]").forEach((b) =>
+    b.addEventListener("click", () => select(b.dataset.goto)));
+  const ep = $("#editPerson"); if (ep) ep.addEventListener("click", () => personModal(p));
+  const dpBtn = $("#deletePerson");
+  if (dpBtn) dpBtn.addEventListener("click", async () => {
+    const n = state.rels.filter((r) => r.parentId === p.id || r.childId === p.id || r.personA === p.id || r.personB === p.id).length;
+    const yes = await confirmDialog(`Delete ${fullName(p)}?`,
+      `This removes <b>${esc(fullName(p))}</b> from the Vanshavali${n ? ` along with ${n} relationship${n > 1 ? "s" : ""}` : ""}. This cannot be undone.`,
+      "Delete", true);
+    if (!yes) return;
+    state.people = state.people.filter((x) => x.id !== p.id);
+    state.rels = state.rels.filter((r) => r.parentId !== p.id && r.childId !== p.id && r.personA !== p.id && r.personB !== p.id);
+    state.selected = null; closeInspector(); render(); toast("Person removed");
+  });
+  const lr = $("#linkRelBtn"); if (lr) lr.addEventListener("click", () => relationshipModal(p));
+  const dp = $("#editDp"); if (dp) dp.addEventListener("click", () => pickImage((data) => { p.profilePhoto = data; render(); renderInspector(); }));
+  const rdp = $("#removeDp"); if (rdp) rdp.addEventListener("click", () => { p.profilePhoto = null; render(); renderInspector(); });
+  const am = $("#addMedia"); if (am) am.addEventListener("click", () => pickImage((data) => { p.media = (p.media || []).concat([data]); renderInspector(); }));
+  $("#inspBody").querySelectorAll("[data-unlink]").forEach((b) => b.addEventListener("click", (e) => {
+    e.stopPropagation();
+    state.rels = state.rels.filter((r) => r.id !== b.dataset.unlink);
+    render(); renderInspector(); toast("Relationship removed");
+  }));
+  $("#inspBody").querySelectorAll(".rel-status-select").forEach((s) => s.addEventListener("change", () => {
+    const r = state.rels.find((x) => x.id === s.dataset.relid);
+    if (r) { r.status = s.value; render(); renderInspector(); toast("Relationship updated"); }
+  }));
+  $("#inspBody").querySelectorAll(".rel-subtype-select").forEach((s) => s.addEventListener("change", () => {
+    const r = state.rels.find((x) => x.id === s.dataset.relid);
+    if (r) { r.subtype = s.value; render(); renderInspector(); toast("Relationship updated"); }
+  }));
+}
+
+/* ========================= IMAGE INPUT ========================= */
+function pickImage(cb) {
+  const inp = document.createElement("input");
+  inp.type = "file"; inp.accept = "image/*";
+  inp.addEventListener("change", () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    const img = new Image(), fr = new FileReader();
+    fr.onload = () => {
+      img.onload = () => {
+        // downscale to keep the portable HTML small
+        const max = 420, s = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        cb(c.toDataURL("image/jpeg", 0.86));
+      };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(f);
+  });
+  inp.click();
+}
+
+/* ========================= MODALS ========================= */
+const scrim = $("#scrim"), modal = $("#modal");
+function openModal(html) { modal.innerHTML = html; scrim.classList.add("show"); }
+function confirmDialog(title, messageHTML, confirmLabel, danger) {
+  return new Promise((resolve) => {
+    openModal(`
+      <header><h3>${esc(title)}</h3></header>
+      <div class="body"><div style="font-size:13.5px;line-height:1.6;color:var(--text-dim)">${messageHTML}</div></div>
+      <div class="foot">
+        <button class="btn" id="cfNo">Cancel</button>
+        <button class="btn ${danger ? "danger" : "primary"}" id="cfYes">${esc(confirmLabel || "Confirm")}</button>
+      </div>`);
+    let done = false;
+    const onScrim = (e) => { if (e.target === scrim) fin(false); };
+    const onKey = (e) => { if (e.key === "Escape") fin(false); };
+    function fin(v) {
+      if (done) return;
+      done = true;
+      scrim.removeEventListener("mousedown", onScrim);
+      document.removeEventListener("keydown", onKey);
+      closeModal();
+      resolve(v);
+    }
+    scrim.addEventListener("mousedown", onScrim);
+    document.addEventListener("keydown", onKey);
+    $("#cfNo").addEventListener("click", () => fin(false));
+    $("#cfYes").addEventListener("click", () => fin(true));
+  });
+}
+function closeModal() { scrim.classList.remove("show"); }
+scrim.addEventListener("mousedown", (e) => { if (e.target === scrim) closeModal(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeModal(); hideMenu(); hideResults(); } });
+
+const ROLES = [
+  ["father", "Father"], ["mother", "Mother"], ["spouse", "Spouse"],
+  ["son", "Son"], ["daughter", "Daughter"], ["brother", "Brother"], ["sister", "Sister"]
+];
+
+function personModal(existing) {
+  const base = existing || Object.assign({ id: null }, PERSON_DEFAULTS);
+  let photo = base.profilePhoto || null;
+  const pending = []; // {role, personId, attr}
+  /* Field values typed into the form so far. Re-captured every time we're
+     about to leave the form (e.g. to open the relationship picker) so
+     nothing typed gets lost when the form is redrawn on return. */
+  let draft = {
+    firstName: base.firstName || "", lastName: base.lastName || "", gender: base.gender || "m",
+    birthDate: base.birthDate || "", deathDate: base.deathDate || "",
+    deceased: !!base.deceased, birthPlace: base.birthPlace || "", notes: base.notes || "",
+    telephone: base.telephone || "",
+    mobCode: base.mobCode || "+91", mobile: base.mobile || "",
+    mob2Code: base.mob2Code || "+91", mobile2: base.mobile2 || ""
+  };
+  function captureDraft() {
+    if (!$("#fFirst")) return;
+    draft = {
+      firstName: $("#fFirst").value, lastName: $("#fLast").value, gender: $("#fGender").value,
+      birthDate: $("#fBirth").value, deathDate: $("#fDeath").value,
+      deceased: $("#fDeceased").checked, birthPlace: $("#fPlace").value, notes: $("#fNotes").value,
+      telephone: $("#fTel").value,
+      mobCode: $("#fMobCode").value, mobile: $("#fMob").value,
+      mob2Code: $("#fMob2Code").value, mobile2: $("#fMob2").value
+    };
+  }
+
+  function showForm() {
+    const p = draft;
+    openModal(`
+      <header>
+        <h3>${existing ? "Edit person" : "Add person"}</h3>
+        <div class="sub">${existing ? "Changes apply immediately to the tree." : "Add someone and optionally connect them to your family."}</div>
+      </header>
+      <div class="body">
+        <div class="photo-pick" style="margin-bottom:18px">
+          <div id="photoBox">${photo ? `<img src="${esc(photo)}" alt="">` : `<div style="width:72px;height:72px;border-radius:14px;border:1px dashed var(--border);display:grid;place-items:center;color:var(--text-faint);font-size:11px">Photo</div>`}</div>
+          <div style="display:flex;gap:8px"><button class="btn sm" id="pPhoto">Choose photo</button>${photo ? `<button class="btn sm danger" id="pPhotoRm">Remove</button>` : ""}</div>
+        </div>
+        <div class="grid2">
+          <label class="f"><span>FIRST NAME</span><input type="text" id="fFirst" value="${esc(p.firstName)}" /></label>
+          <label class="f"><span>LAST NAME</span><input type="text" id="fLast" value="${esc(p.lastName)}" /></label>
+          <label class="f"><span>DATE OF BIRTH</span><input type="date" id="fBirth" value="${esc(p.birthDate || "")}" /></label>
+          <label class="f"><span>DATE OF DEATH</span><input type="date" id="fDeath" value="${esc(p.deathDate || "")}" /></label>
+          <label class="f"><span>GENDER</span><select id="fGender"><option value="m"${p.gender !== "f" ? " selected" : ""}>Male</option><option value="f"${p.gender === "f" ? " selected" : ""}>Female</option></select></label>
+          <label class="f"><span>PLACE OF BIRTH</span><input type="text" id="fPlace" value="${esc(p.birthPlace || "")}" /></label>
+          <label class="f"><span>TELEPHONE</span><input type="tel" id="fTel" value="${esc(p.telephone || "")}" placeholder="e.g. +91 20 2612 3456" /></label>
+          <label class="f"><span>MOBILE</span><span class="phone-row"><select id="fMobCode">${dialOptions(p.mobCode)}</select><input type="tel" id="fMob" value="${esc(p.mobile || "")}" placeholder="Mobile number" /></span></label>
+          <label class="f"><span>MOBILE 2</span><span class="phone-row"><select id="fMob2Code">${dialOptions(p.mob2Code)}</select><input type="tel" id="fMob2" value="${esc(p.mobile2 || "")}" placeholder="Second mobile (optional)" /></span></label>
+        </div>
+        <div style="margin:14px 0"><label class="check"><input type="checkbox" id="fDeceased" ${p.deceased ? "checked" : ""}/> Deceased</label></div>
+        <label class="f"><span>NOTES</span><textarea id="fNotes">${esc(p.notes || "")}</textarea></label>
+        ${existing ? "" : `
+        <div class="divider"></div>
+        <div class="sec-title" style="margin-top:0">Relationships (optional)</div>
+        <div class="rel-add">${ROLES.map(([k, l]) => `<button class="chip" data-role="${k}">＋ ${l}</button>`).join("")}</div>
+        <div class="rel-list" id="pendingList"></div>`}
+      </div>
+      <div class="foot">
+        ${existing ? `<button class="btn danger" id="pDelete" style="margin-right:auto">Delete person</button>` : ""}
+        <button class="btn" id="pCancel">Cancel</button>
+        <button class="btn primary" id="pSave">${existing ? "Save changes" : "Add person"}</button>
+      </div>`);
+
+    const drawPending = () => {
+      const box = $("#pendingList"); if (!box) return;
+      box.innerHTML = pending.map((r, i) => {
+        const per = byId(r.personId);
+        return `<div class="rel-pill"><span class="role">${ROLES.find((x) => x[0] === r.role)[1]}</span>${avatarHTML(per, 26)}<span>${esc(fullName(per))}</span>
+          ${r.role === "spouse"
+            ? `<select data-attr="${i}"><option value="married">Married</option><option value="divorced"${r.attr === "divorced" ? " selected" : ""}>Divorced</option></select>`
+            : (r.role === "father" || r.role === "mother" || r.role === "son" || r.role === "daughter")
+              ? `<select data-attr="${i}"><option value="biological">Biological</option><option value="adopted"${r.attr === "adopted" ? " selected" : ""}>Adopted</option></select>` : `<span style="margin-left:auto"></span>`}
+          <button class="icon-btn" data-rm="${i}" aria-label="Remove">✕</button></div>`;
+      }).join("");
+      box.querySelectorAll("[data-rm]").forEach((b) => b.addEventListener("click", () => { pending.splice(+b.dataset.rm, 1); drawPending(); }));
+      box.querySelectorAll("[data-attr]").forEach((s) => s.addEventListener("change", () => { pending[+s.dataset.attr].attr = s.value; }));
+    };
+    drawPending();
+
+    modal.querySelectorAll("[data-role]").forEach((b) => b.addEventListener("click", () => {
+      captureDraft();
+      const role = b.dataset.role;
+      personPicker(ROLES.find((x) => x[0] === role)[1], null,
+        (id) => { pending.push({ role, personId: id, attr: role === "spouse" ? "married" : "biological" }); showForm(); },
+        () => showForm());
+    }));
+    $("#pPhoto").addEventListener("click", () => { captureDraft(); pickImage((d) => { photo = d; showForm(); }); });
+    const rm = $("#pPhotoRm"); if (rm) rm.addEventListener("click", () => { captureDraft(); photo = null; showForm(); });
+    $("#pCancel").addEventListener("click", closeModal);
+    const del = $("#pDelete");
+    if (del) del.addEventListener("click", () => {
+      state.people = state.people.filter((x) => x.id !== base.id);
+      state.rels = state.rels.filter((r) => r.parentId !== base.id && r.childId !== base.id && r.personA !== base.id && r.personB !== base.id);
+      state.selected = null; closeModal(); closeInspector(); render(); toast("Person removed");
+    });
+
+    $("#pSave").addEventListener("click", () => {
+      const first = $("#fFirst").value.trim();
+      if (!first) { $("#fFirst").focus(); return; }
+      const data = {
+        firstName: first, lastName: $("#fLast").value.trim(), gender: $("#fGender").value,
+        birthDate: $("#fBirth").value || null, deathDate: $("#fDeath").value || null,
+        deceased: $("#fDeceased").checked, birthPlace: $("#fPlace").value.trim(), notes: $("#fNotes").value.trim(),
+        telephone: $("#fTel").value.trim(),
+        mobCode: $("#fMobCode").value, mobile: $("#fMob").value.trim(),
+        mob2Code: $("#fMob2Code").value, mobile2: $("#fMob2").value.trim(),
+        profilePhoto: photo
+      };
+      if (existing) {
+        Object.assign(existing, data);
+        closeModal(); render(); renderInspector(); toast("Person updated");
+      } else {
+        const np = normalizePerson(Object.assign({ id: uid("p") }, PERSON_DEFAULTS, data), state.people.length);
+        state.people.push(np);
+        closeModal(); render();
+        (async () => {
+          let allOk = true;
+          for (const r of pending) {
+            const res = await addRelationshipInteractive(np.id, r.role, r.personId, r.attr);
+            if (!res.ok) allOk = false;
+          }
+          render(); select(np.id);
+          toast(allOk ? fullName(np) + " added" : fullName(np) + " added — one relationship was skipped");
+        })();
+      }
+    });
+    setTimeout(() => $("#fFirst").focus(), 40);
+  }
+
+  showForm();
+}
+
+/* Returns true if every relationship implied by this call was added, false
+   if one or more were skipped because they would have made someone their
+   own ancestor. Partial success (e.g. one shared-parent link out of two)
+   still applies whatever was safe to add. */
+function parentSlot(childId, gender) {
+  const want = gender === "f" ? "f" : "m";
+  return parentRels(childId).map((r) => ({ rel: r, per: byId(r.parentId) }))
+    .find((x) => x.per && (x.per.gender === "f" ? "f" : "m") === want) || null;
+}
+
+function addRelationship(personId, role, otherId, attr, opts) {
+  opts = opts || {};
+  const mk = (o) => Object.assign({ id: uid("r") }, o);
+  let ok = true, reason = null, conflict = null;
+
+  /* A person can have at most one father and at most one mother. Attaching a
+     parent to a child whose matching slot is already taken either replaces the
+     old link (when the caller confirmed it) or is refused as a conflict. */
+  const attachParent = (parentId, childId, subtype, allowReplace) => {
+    const par = byId(parentId);
+    if (!par) return "bad";
+    const slot = parentSlot(childId, par.gender);
+    if (slot && slot.per.id === parentId) return "exists";
+    if (slot) {
+      if (!allowReplace) { conflict = { existing: slot.per, child: byId(childId), slotLabel: par.gender === "f" ? "mother" : "father" }; return "conflict"; }
+      state.rels = state.rels.filter((r) => r.id !== slot.rel.id);
+    }
+    if (wouldCreateCycle(parentId, childId)) return "cycle";
+    state.rels.push(mk({ type: "parent-child", parentId, childId, subtype: subtype || "biological" }));
+    return "ok";
+  };
+  const fin = (res) => {
+    if (res === "ok" || res === "exists") return true;
+    ok = false;
+    reason = res === "conflict" ? "duplicate-parent" : res === "cycle" ? "cycle" : "failed";
+    return false;
+  };
+
+  if (role === "father" || role === "mother") {
+    fin(attachParent(otherId, personId, attr || "biological", !!opts.replace));
+  } else if (role === "son" || role === "daughter" || role === "child") {
+    if (fin(attachParent(personId, otherId, attr || "biological", !!opts.replace))) {
+      // couples share children — but never overwrite a parent the child already has
+      spousesOf(personId).forEach((sp) => {
+        const spouse = byId(sp);
+        if (!spouse) return;
+        if (parentSlot(otherId, spouse.gender)) return;
+        attachParent(sp, otherId, attr || "biological", false);
+      });
+    }
+  } else if (role === "spouse") {
+    state.rels.push(mk({ type: "spouse", personA: personId, personB: otherId, status: attr || "married" }));
+  } else if (role === "brother" || role === "sister" || role === "sibling") {
+    const ps = parentsOf(otherId);
+    if (ps.length) ps.forEach((pp) => { const par = byId(pp); if (par && !parentSlot(personId, par.gender)) fin(attachParent(pp, personId, "biological", false)); });
+    else parentsOf(personId).forEach((pp) => { const par = byId(pp); if (par && !parentSlot(otherId, par.gender)) fin(attachParent(pp, otherId, "biological", false)); });
+  }
+  return { ok, reason, conflict };
+}
+
+/* Adds a relationship, asking the user first if it would give someone a second
+   father or mother. Returns true when something was recorded. */
+async function addRelationshipInteractive(personId, role, otherId, attr) {
+  let res = addRelationship(personId, role, otherId, attr);
+  if (!res.ok && res.reason === "duplicate-parent" && res.conflict) {
+    const c = res.conflict;
+    const incoming = byId(role === "father" || role === "mother" ? otherId : personId);
+    const yes = await confirmDialog(`Replace ${c.slotLabel}?`,
+      `<b>${esc(fullName(c.child))}</b> already has a ${c.slotLabel} recorded: <b>${esc(fullName(c.existing))}</b>.
+       A person can only have one ${c.slotLabel}. Replace with <b>${esc(incoming ? fullName(incoming) : "this person")}</b>?`,
+      "Replace");
+    if (!yes) return { ok: false, cancelled: true };
+    res = addRelationship(personId, role, otherId, attr, { replace: true });
+  }
+  return res;
+}
+
+function personPicker(roleLabel, excludeId, onPick, onBack) {
+  const list = (q) => state.people
+    .filter((x) => x.id !== excludeId && fullName(x).toLowerCase().includes(q.toLowerCase()))
+    .slice(0, 60)
+    .map((x) => `<button class="res-item" data-pick="${x.id}">${avatarHTML(x, 30)}<span><span class="nm" style="display:block">${esc(fullName(x))}</span><span class="dt">${esc(lifeLine(x))}</span></span></button>`).join("")
+    || `<div class="res-empty">No matching person</div>`;
+
+  openModal(`
+    <header><h3>Link ${esc(roleLabel)}</h3><div class="sub">Choose an existing person, or create a new one.</div></header>
+    <div class="body">
+      <input type="text" id="pickQ" placeholder="Search existing people…" autocomplete="off" />
+      <div class="picker-list" id="pickList">${list("")}</div>
+    </div>
+    <div class="foot">
+      <button class="btn" id="pickBack">Back</button>
+      <button class="btn primary" id="pickNew">＋ Create new person</button>
+    </div>`);
+
+  const bind = () => modal.querySelectorAll("[data-pick]").forEach((b) =>
+    b.addEventListener("click", () => onPick(b.dataset.pick)));
+  bind();
+  $("#pickQ").addEventListener("input", () => { $("#pickList").innerHTML = list($("#pickQ").value); bind(); });
+  $("#pickBack").addEventListener("click", () => { if (onBack) onBack(); });
+  $("#pickNew").addEventListener("click", () => quickCreate((id) => onPick(id)));
+  setTimeout(() => $("#pickQ").focus(), 40);
+}
+
+function quickCreate(cb) {
+  openModal(`
+    <header><h3>Create new person</h3><div class="sub">You can add full details later.</div></header>
+    <div class="body">
+      <div class="grid2">
+        <label class="f"><span>FIRST NAME</span><input type="text" id="qFirst" /></label>
+        <label class="f"><span>LAST NAME</span><input type="text" id="qLast" /></label>
+        <label class="f"><span>GENDER</span><select id="qGender"><option value="m">Male</option><option value="f">Female</option></select></label>
+        <label class="f"><span>DATE OF BIRTH</span><input type="date" id="qBirth" /></label>
+      </div>
+    </div>
+    <div class="foot"><button class="btn" id="qCancel">Cancel</button><button class="btn primary" id="qSave">Create</button></div>`);
+  $("#qCancel").addEventListener("click", closeModal);
+  $("#qSave").addEventListener("click", () => {
+    const f = $("#qFirst").value.trim(); if (!f) { $("#qFirst").focus(); return; }
+    const np = { id: uid("p"), firstName: f, lastName: $("#qLast").value.trim(), gender: $("#qGender").value,
+      birthDate: $("#qBirth").value || null, deathDate: null, deceased: false, birthPlace: "", notes: "", profilePhoto: null, media: [] };
+    state.people.push(np); closeModal(); cb(np.id);
+  });
+  setTimeout(() => $("#qFirst").focus(), 40);
+}
+
+function relationshipModal(person) {
+  function show() {
+    openModal(`
+      <header><h3>Add relationship</h3><div class="sub">Connect ${esc(fullName(person))} to someone in your Vanshavali.</div></header>
+      <div class="body">
+        <div class="rel-add">${ROLES.map(([k, l]) => `<button class="chip" data-role="${k}">＋ ${l}</button>`).join("")}</div>
+        <div style="font-size:12.5px;color:var(--text-faint);margin-top:14px">Pick a role, then choose an existing person or create a new one.</div>
+      </div>
+      <div class="foot"><button class="btn" id="rClose">Done</button></div>`);
+    $("#rClose").addEventListener("click", closeModal);
+    modal.querySelectorAll("[data-role]").forEach((b) => b.addEventListener("click", () => {
+      const role = b.dataset.role;
+      personPicker(ROLES.find((x) => x[0] === role)[1], person.id,
+        async (id) => {
+          const attr = role === "spouse" ? "married" : "biological";
+          closeModal();
+          const res = await addRelationshipInteractive(person.id, role, id, attr);
+          render(); renderInspector();
+          if (res.cancelled) return toast("No changes made");
+          toast(res.ok ? "Relationship added"
+            : res.reason === "cycle" ? "That link would make someone their own ancestor — not added"
+            : "Relationship not added");
+        },
+        () => show());
+    }));
+  }
+  show();
+}
+
+/* ========================= SEARCH ========================= */
+/* ---- guard against accidental refresh / tab close losing everything ---- */
+window.addEventListener("beforeunload", (e) => {
+  if (!state.people.length) return;
+  e.preventDefault();
+  e.returnValue = "All Vanshavali data in this window will be lost unless you have saved a data file.";
+  return e.returnValue;
+});
+
+const searchInput = $("#search"), results = $("#results");
+let resIndex = -1;
+function runSearch() {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) return hideResults();
+  const hits = state.people.filter((p) =>
+    (p.firstName || "").toLowerCase().includes(q) || (p.lastName || "").toLowerCase().includes(q)).slice(0, 12);
+  results.innerHTML = hits.length
+    ? hits.map((p, i) => `<button class="res-item${i === 0 ? " active" : ""}" data-id="${p.id}">${avatarHTML(p, 30)}<span><span class="nm" style="display:block">${esc(fullName(p))}</span><span class="dt">${esc(lifeLine(p))}</span></span></button>`).join("")
+    : `<div class="res-empty">No one found</div>`;
+  resIndex = hits.length ? 0 : -1;
+  results.classList.add("show");
+  results.querySelectorAll("[data-id]").forEach((b) => b.addEventListener("click", () => { pickResult(b.dataset.id); }));
+}
+function pickResult(id) { hideResults(); searchInput.value = ""; select(id); }
+function hideResults() { results.classList.remove("show"); }
+searchInput.addEventListener("input", runSearch);
+searchInput.addEventListener("keydown", (e) => {
+  const items = [...results.querySelectorAll("[data-id]")];
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    e.preventDefault(); if (!items.length) return;
+    resIndex = (resIndex + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length;
+    items.forEach((it, i) => it.classList.toggle("active", i === resIndex));
+  } else if (e.key === "Enter" && items[resIndex]) pickResult(items[resIndex].dataset.id);
+});
+document.addEventListener("click", (e) => { if (!e.target.closest(".search-wrap")) hideResults(); });
+
+/* ========================= EXPORT ========================= */
+const exportMenu = $("#exportMenu");
+function hideMenu() { exportMenu.classList.remove("show"); }
+$("#exportBtn").addEventListener("click", (e) => { e.stopPropagation(); exportMenu.classList.toggle("show"); });
+$("#themeBtn").addEventListener("click", () => {
+  applyTheme(currentTheme() === "dark" ? "light" : "dark", { persist: true });
+});
+document.addEventListener("click", (e) => { if (!e.target.closest("#exportMenu") && !e.target.closest("#exportBtn")) hideMenu(); });
+
+function treeSVGString(pad) {
+  const b = state.layout.bbox;
+  const W = b.w + pad * 2, H = b.h + pad * 2;
+  const nodesSvg = [...state.layout.nodes.values()].map((n) => {
+    const p = byId(n.id);
+    const tx = n.x - b.x + pad, ty = n.y - b.y + pad;
+    return `<g transform="translate(${tx},${ty})">
+      <rect x="0" y="0" width="${NODE_W}" height="${NODE_H}" rx="15" fill="${cssVar(p.gender === "f" ? "--node-f" : "--node-m")}" stroke="${cssVar("--node-stroke")}"/>
+      <clipPath id="xc-${p.id}"><circle cx="38" cy="37" r="21"/></clipPath>
+      <circle cx="38" cy="37" r="21" fill="${cssVar(p.gender === "f" ? "--avatar-f" : "--avatar-m")}" stroke="${cssVar("--avatar-stroke")}"/>
+      ${p.profilePhoto
+        ? `<image href="${esc(p.profilePhoto)}" x="17" y="16" width="42" height="42" preserveAspectRatio="xMidYMid slice" clip-path="url(#xc-${p.id})"/>`
+        : `<text x="38" y="42" text-anchor="middle" font-size="14" font-weight="600" fill="${cssVar("--node-ini")}">${esc(initials(p))}</text>`}
+      <text x="70" y="34" font-size="13.5" font-weight="600" fill="${cssVar("--text")}">${esc(fitName(p))}</text>
+      <text x="70" y="52" font-size="11.5" fill="${cssVar("--node-sub")}">${esc(lifeLine(p))}</text>
+    </g>`;
+  }).join("");
+  const LINE_COLOR = {
+    pc: cssVar("--line-parent"), adopted: cssVar("--line-parent-adopted"),
+    spouse: cssVar("--line-spouse"), divorced: cssVar("--line-spouse-divorced"),
+    sibling: cssVar("--line-sibling"), "sibling-half": cssVar("--line-sibling-half")
+  };
+  const edgesSvg = state.layout.edges.map((e) => {
+    const stroke = e.cls === "adopted" ? LINE_COLOR.adopted
+      : e.cls === "divorced" ? LINE_COLOR.divorced
+      : e.kind === "sibling" ? (e.cls === "half" ? LINE_COLOR["sibling-half"] : LINE_COLOR.sibling)
+      : e.kind === "spouse" ? LINE_COLOR.spouse : LINE_COLOR.pc;
+    const dash = e.cls === "adopted" ? 'stroke-dasharray="1 5" stroke-linecap="round"'
+      : e.cls === "divorced" ? 'stroke-dasharray="5 4"'
+      : e.kind === "sibling" ? 'stroke-dasharray="4 4" stroke-linecap="round"' : "";
+    const w = e.kind === "sibling" ? 1.4 : 1.6;
+    return `<path d="${e.d}" fill="none" stroke="${stroke}" stroke-width="${w}" ${dash}/>`;
+  }).join("");
+  const z = state.layout.unmappedZone;
+  const zoneSvg = z ? `<rect x="${z.x - b.x + pad}" y="${z.y - b.y + pad}" width="${z.w}" height="${z.h}" rx="18"
+      fill="${cssVar("--zone-fill")}" stroke="${cssVar("--zone-unmapped")}" stroke-width="1.4" stroke-dasharray="6 6"/>
+    <text x="${z.x - b.x + pad + 22}" y="${z.y - b.y + pad + 26}" font-size="12.5" font-weight="600"
+      letter-spacing="1" fill="${cssVar("--text-faint")}">UNMAPPED</text>` : "";
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect width="${W}" height="${H}" fill="${cssVar("--canvas-b")}"/>
+    <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" transform="translate(${-b.x + b.x},0)">
+      ${zoneSvg}
+      <g transform="translate(${pad - b.x},${pad - b.y})">${edgesSvg}</g>
+      ${nodesSvg}
+    </g></svg>`;
+}
+
+$("#saveImg").addEventListener("click", async () => {
+  hideMenu();
+  if (!state.layout.bbox) return toast("Nothing to export yet");
+  toast("Rendering high-resolution image…");
+  const pad = 80;
+  const b = state.layout.bbox;
+  const svgStr = treeSVGString(pad);
+  const scale = Math.min(4, Math.max(2, 6000 / (b.w + pad * 2)));
+  const img = new Image();
+  img.onload = () => {
+    const c = document.createElement("canvas");
+    c.width = Math.round((b.w + pad * 2) * scale);
+    c.height = Math.round((b.h + pad * 2) * scale);
+    const ctx = c.getContext("2d");
+    ctx.scale(scale, scale);
+    ctx.drawImage(img, 0, 0);
+    c.toBlob((blob) => {
+      download(blob, (state.meta.title || "Vanshavali").replace(/\s+/g, "-") + "-tree.png");
+      toast("Image saved · " + c.width + "×" + c.height);
+    }, "image/png");
+  };
+  img.onerror = () => toast("Could not render the image");
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgStr);
+});
+
+function currentDoc() {
+  const doc = Object.assign({}, state.doc);       /* keeps unknown top-level keys */
+  doc.app = "vanshavali";
+  doc.formatVersion = FORMAT_VERSION;
+  doc.people = state.people;
+  doc.relationships = state.rels;
+  doc.metadata = Object.assign({}, state.meta, { savedAt: new Date().toISOString() });
+  return doc;
+}
+function currentDataJSON() { return JSON.stringify(currentDoc(), null, 2); }
+
+/* --------------------- SAVE DATA FILE (.vansh) --------------------- */
+$("#saveData").addEventListener("click", async () => {
+  hideMenu();
+  const json = currentDataJSON();
+  const name = (state.meta.title || "Vanshavali").replace(/\s+/g, "-") + ".vansh";
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+  try {
+    if (window.showSaveFilePicker) {
+      const h = await window.showSaveFilePicker({ suggestedName: name,
+        types: [{ description: "Vanshavali data file", accept: { "application/json": [".vansh", ".json"] } }] });
+      const w = await h.createWritable(); await w.write(blob); await w.close();
+    } else {
+      download(blob, name);
+    }
+    toast("Saved · " + state.people.length + " people, " + state.rels.length + " relationships");
+  } catch (err) {
+    if (err && err.name === "AbortError") return;
+    download(blob, name);
+    toast("Saved data file");
+  }
+});
+
+/* ========================= IMPORT ========================= */
+/* Accepts a .vansh / .json data file, or a Vanshavali HTML file (the data
+   block is pulled straight out of it). Everything goes through normalizeDoc
+   so older files gain blank defaults and newer unknown fields survive. */
+function parseIncoming(text) {
+  const t = text.trim();
+  let json = t;
+  if (t.slice(0, 200).toLowerCase().indexOf("<!doctype") === 0 || t.slice(0, 1) === "<") {
+    const m = t.match(/<script[^>]*id=["']vanshavali-data["'][^>]*>([\s\S]*?)<\/script>/i);
+    if (!m) throw new Error("No Vanshavali data found in that HTML file");
+    json = m[1];
+  }
+  return normalizeDoc(JSON.parse(json));
+}
+function applyDoc(doc) {
+  const dropped = repairDoc(doc);
+  state.doc = doc;
+  state.people = doc.people;
+  state.rels = doc.relationships;
+  state.meta = doc.metadata;
+  state.selected = null;
+  closeInspector();
+  render();
+  fitToView(true);
+  toast("Imported · " + doc.people.length + " people, " + doc.relationships.length +
+    " relationships" + (dropped ? " · " + dropped + " broken link" + (dropped > 1 ? "s" : "") + " repaired" : ""));
+}
+function importText(text) {
+  let doc;
+  try { doc = parseIncoming(text); }
+  catch (err) { return toast(err.message || "That file could not be read"); }
+  const n = doc.people.length, r = doc.relationships.length;
+  openModal(`
+    <header><h3>Import lineage</h3><div class="sub">This replaces everything currently on screen.</div></header>
+    <div class="body">
+      <p style="margin:0 0 10px;color:var(--text-dim)">
+        This file holds <strong style="color:var(--text)">${n}</strong> ${n === 1 ? "person" : "people"} and
+        <strong style="color:var(--text)">${r}</strong> ${r === 1 ? "relationship" : "relationships"}.
+      </p>
+      <p style="margin:0;color:var(--text-faint);font-size:12.5px">Anything unsaved here will be lost. Save a data file first if you need a copy.</p>
+    </div>
+    <div class="foot">
+      <button class="btn" id="imCancel">Cancel</button>
+      <button class="btn primary" id="imOk">Import &amp; trace</button>
+    </div>`);
+  $("#imCancel").addEventListener("click", closeModal);
+  $("#imOk").addEventListener("click", () => { closeModal(); applyDoc(doc); });
+}
+function importFileObj(file) {
+  if (!file) return;
+  const fr = new FileReader();
+  fr.onload = () => importText(String(fr.result || ""));
+  fr.onerror = () => toast("Could not read that file");
+  fr.readAsText(file);
+}
+$("#importBtn").addEventListener("click", () => $("#importFile").click());
+$("#importFile").addEventListener("change", (e) => {
+  importFileObj(e.target.files && e.target.files[0]);
+  e.target.value = "";
+});
+/* Drag a data file anywhere onto the window to import it. */
+["dragenter", "dragover"].forEach((ev) => document.addEventListener(ev, (e) => {
+  if (!e.dataTransfer || ![...e.dataTransfer.types].includes("Files")) return;
+  e.preventDefault(); e.dataTransfer.dropEffect = "copy";
+  document.body.classList.add("dropping");
+}));
+["dragleave", "dragend"].forEach((ev) => document.addEventListener(ev, (e) => {
+  if (e.relatedTarget) return;
+  document.body.classList.remove("dropping");
+}));
+document.addEventListener("drop", (e) => {
+  if (!e.dataTransfer || !e.dataTransfer.files.length) return;
+  e.preventDefault();
+  document.body.classList.remove("dropping");
+  importFileObj(e.dataTransfer.files[0]);
+});
+function buildPortableHTML() {
+  const json = currentDataJSON();
+  const open = '<script id="vanshavali-data" type="application/json">';
+  const i = PRISTINE_HTML.indexOf(open);
+  const j = PRISTINE_HTML.indexOf("<\/script>", i);
+  if (i < 0 || j < 0) throw new Error("data block not found");
+  return PRISTINE_HTML.slice(0, i + open.length) + "\n" + json + "\n" + PRISTINE_HTML.slice(j);
+}
+$("#saveHtml").addEventListener("click", () => {
+  hideMenu();
+  try {
+    const html = buildPortableHTML();
+    const name = (state.meta.title || "My-Family-Vanshavali").replace(/\s+/g, "-") + ".html";
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    if (window.showSaveFilePicker) {
+      window.showSaveFilePicker({ suggestedName: name, types: [{ description: "HTML", accept: { "text/html": [".html"] } }] })
+        .then(async (h) => { const w = await h.createWritable(); await w.write(blob); await w.close(); toast("Vanshavali saved"); })
+        .catch(() => download(blob, name));
+    } else download(blob, name);
+    toast("Vanshavali HTML downloaded");
+  } catch (err) { console.error(err); toast("Could not build the file"); }
+});
+function download(blob, name) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+
+/* ========================= MISC UI ========================= */
+let toastT;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 2400);
+}
+$("#zoomIn").addEventListener("click", () => zoomAtCenter(1.2));
+$("#zoomOut").addEventListener("click", () => zoomAtCenter(1 / 1.2));
+$("#fitBtn").addEventListener("click", () => fitToView(true));
+$("#focusBtn").addEventListener("click", () => {
+  if (!state.selected) return toast("Select a person to see their lineage");
+  fitToLineage(state.selected);
+});
+$("#legendClose").addEventListener("click", () => {
+  $("#legend").classList.add("hide");
+  $("#legendBtn").style.display = "inline-flex";
+});
+$("#legendBtn").addEventListener("click", () => {
+  $("#legend").classList.remove("hide");
+  $("#legendBtn").style.display = "none";
+});
+$("#addBtn").addEventListener("click", () => personModal(null));
+$("#emptyAdd").addEventListener("click", () => personModal(null));
+document.addEventListener("keydown", (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); searchInput.focus(); }
+});
+
+
+/* ========================= BOOT ========================= */
+render();
+fitToView(false);
+})();
+</script></body></html>
